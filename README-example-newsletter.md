@@ -2,7 +2,7 @@
 
 
 
-## up by interactive mode
+# up by interactive mode
 `# docker run --rm -it -v "./example/newsletter:/app" --name newsletter-poc -p 5005:5005 -p 5006:5006 --entrypoint /bin/bash rasa/rasa:3.6.6-full`
 
 `# rasa interactive`
@@ -67,7 +67,7 @@ Current slots:
 
 ```
 
-## create intent by interactive mode
+# create intent by interactive mode
 
 ```terminal
 ? Your input -> i want to subscript the news letter
@@ -159,7 +159,7 @@ Current slots:
 
 ```
 
-## create eneity by interactive mode
+# create eneity by interactive mode
 ```terminal
 ? Your input -> my mail is greatmail@mail.home.tw
 ? Your NLU model classified 'my mail is greatmail@mail.home.tw' with intent 'mood_great' and there are no entities, is this cor
@@ -263,7 +263,7 @@ Current slots:
 ? The bot wants to run 'action_listen', correct? Yes
 ```
 
-## export by interactive mode
+# export by interactive mode
 ```terminal
 ? The bot wants to run 'action_listen', correct? Yes
 ? Your input ->                                                                                                                
@@ -280,8 +280,7 @@ Cancelled by user
 2023-08-25 16:40:47 INFO     rasa.core.training.interactive  - Killing Sanic server now.
 ```
 
-
-## add more example to training
+# add more example to training
 - data/nlu.yml
 ```
 - intent: subcript_news_letter
