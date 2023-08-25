@@ -29,8 +29,17 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-# - story: User want to subscript news letter service
-#   steps:
-#   - intent: request_restaurant
-#   - action: newsletter_form
-#   - active_loop: newsletter_form
+- story: interactive_story_1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - intent: subcript_news_letter
+    entities:
+    - service: news letter
+  - action: utter_subcript_news_letter
+  - intent: mood_great
+  - intent: inform_email
+    entities:
+    - email: greatmail@mail.home.tw
+  - action: utter_reply_subscript_mail_address

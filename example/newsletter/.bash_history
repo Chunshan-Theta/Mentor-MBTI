@@ -1,0 +1,2 @@
+rasa interactive
+exit
