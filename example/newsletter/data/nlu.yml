@@ -82,14 +82,9 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
-- intent: required_news_letter_service
+- intent: subcript_news_letter
   examples: |
-    - yes, I'm so good. could I have a [newsletter](service) service?
-    - subscript
-    - [newsletter](service) please
-    - I want to subscript the [newsletter](service) service
-- intent: inform_client_email
+    - i want to subscript the [news letter](service)
+- intent: inform_email
   examples: |
-    - yes,  My email address is [ThetaWany@greatmail.com.tw](email)
-    - [boyboy@gmail.com.tw](email)
-    - Please send to [coolguy2023@hotmail.com](email)
+    - my mail is [greatmail@mail.home.tw](email)

@@ -1,0 +1,3 @@
+**/models/*
+**/.rasa/cache/*
+**/*.pyc
