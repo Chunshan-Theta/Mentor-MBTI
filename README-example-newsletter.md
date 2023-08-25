@@ -101,7 +101,7 @@ Current slots:
 ? The bot wants to run 'utter_happy', correct?
 ```
 
-* create action by interactive mode
+# create action by interactive mode
 ```terminal
 ? The bot wants to run 'utter_happy', correct? No
 ------
