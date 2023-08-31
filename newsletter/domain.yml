@@ -11,9 +11,9 @@ intents:
 - required_news_letter_service
 responses:
   utter_required_news_letter_service:
-  - text: 'May I have your email address?'
+  - text: May I have your email address?
   utter_inform_client_email:
-  - text: 'done! you had subscripted by {email}!'
+  - text: done! you had subscripted by {email}!
   utter_greet:
   - text: Hey! How are you?
   utter_cheer_up:
@@ -32,11 +32,9 @@ responses:
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
-
 entities:
-- service
 - email
-
+- service
 slots:
   email:
     type: text
@@ -48,15 +46,12 @@ slots:
     mappings:
     - type: from_entity
       entity: service
-
-
 forms:
   newsletter_form:
     required_slots:
     - email
-
-
 actions:
-- utter_inform_client_email
+- utter_ask_email
 - utter_required_news_letter_service
+- utter_inform_client_email
 - utter_greet

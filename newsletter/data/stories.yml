@@ -2,44 +2,13 @@ version: "3.1"
 
 stories:
 
-- story: happy path
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
-
-- story: sad path 1
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-
-- story: sad path 2
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
-
-# - story: User want to subscript news letter service
-#   steps:
-#   - intent: request_restaurant
-#   - action: newsletter_form
-#   - active_loop: newsletter_form
-
-- story: interactive_story_1
+- story: User want to subscript news letter service
   steps:
   - intent: required_news_letter_service
   - action: utter_required_news_letter_service
-  - intent: inform_client_email
   - action: newsletter_form
   - active_loop: newsletter_form
   - action: utter_inform_client_email
+
+
+

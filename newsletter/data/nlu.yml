@@ -88,8 +88,18 @@ nlu:
     - subscript
     - [newsletter](service) please
     - I want to subscript the [newsletter](service) service
+    - scribe
+    - subscribe
 - intent: inform_client_email
   examples: |
-    - yes,  My email address is [ThetaWany@greatmail.com.tw](email)
+    - yes,  My email address is [ThetaWany@greatmail.com](email)
     - [boyboy@gmail.com.tw](email)
     - Please send to [coolguy2023@hotmail.com](email)
+    - what's kind of mail is working?
+    - gmail is work?
+    - email address?
+    - why you need my email address?
+    - google mail is working?
+    - gmail address is work?
+    - [gavin19950511@gmail.com](email) here
+    - [hello@yahoo.com.tw](email) is my option
