@@ -27,12 +27,16 @@ responses:
   - text: Bye
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
+  utter_ask_email:
+  - text: please tell me your email address. like `example@mail.com`
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+
 entities:
 - service
 - email
+
 slots:
   email:
     type: text
@@ -44,6 +48,13 @@ slots:
     mappings:
     - type: from_entity
       entity: service
+
+
+forms:
+  newsletter_form:
+    required_slots:
+    - email
+
 
 actions:
 - utter_inform_client_email
