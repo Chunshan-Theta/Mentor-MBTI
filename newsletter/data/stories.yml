@@ -10,5 +10,3 @@ stories:
   - active_loop: newsletter_form
   - action: utter_inform_client_email
 
-
-

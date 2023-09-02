@@ -6,6 +6,7 @@ intents:
 - goodbye
 - greet
 - inform_client_email
+- inform_name
 - mood_great
 - mood_unhappy
 - required_news_letter_service
@@ -29,20 +30,35 @@ responses:
   - text: I am a bot, powered by Rasa.
   utter_ask_email:
   - text: please tell me your email address. like `example@mail.com`
+  utter_ask_username:
+  - text: Could you give me your name?
+  utter_say_hi_to_user:
+  - text: hi! {username}
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 entities:
+- username
 - email
 - service
 slots:
+  username:
+    type: text
+    influence_conversation: true
+    initial_value: null
+    mappings:
+    - type: from_entity
+      entity: username
   email:
     type: text
+    influence_conversation: true
+    initial_value: null
     mappings:
     - type: from_entity
       entity: email
   service:
     type: text
+    initial_value: null
     mappings:
     - type: from_entity
       entity: service
@@ -50,8 +66,13 @@ forms:
   newsletter_form:
     required_slots:
     - email
+  user_name_form:
+    required_slots:
+    - username
 actions:
+- utter_say_hi_to_user
+- utter_greet
 - utter_ask_email
 - utter_required_news_letter_service
 - utter_inform_client_email
-- utter_greet
+- utter_ask_username

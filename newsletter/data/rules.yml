@@ -2,6 +2,16 @@ version: "3.1"
 
 rules:
 
+# - rule: Submit form
+#   condition:
+#   - active_loop: newsletter_form
+#   steps:
+#   - active_loop: null
+#   - slot_was_set:
+#     - requested_slot: null
+#   - action: utter_inform_client_email
+
+
 - rule: Say goodbye anytime the user says goodbye
   steps:
   - intent: goodbye
@@ -12,16 +22,28 @@ rules:
   - intent: bot_challenge
   - action: utter_iamabot
 
-# - rule: Example of query email
-#   condition:
-#   # Condition that form is active.
-#   - active_loop: newsletter_form
-#   steps:
-#   # This path handles the case of an intent `request_news_letter_service`.
-#   - intent: request_news_letter_service
-#   - action: utter_request_news_letter_service
-#   # Return to form after handling the `chitchat` intent
-#   - action: restaurant_form
-#   - active_loop: null
-#   - slot_was_set:
-#     - requested_slot: null
+
+- rule: Activate the form
+  condition:
+  - active_loop: null
+  - slot_was_set:
+    - username: null
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: user_name_form
+  - active_loop: user_name_form
+
+- rule: Submit form
+  condition:
+  # Condition that form is active.
+  - active_loop: user_name_form
+  steps:
+  # Form is deactivated
+  - action: user_name_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  # The actions we want to run when the form is submitted.
+  - action: utter_say_hi_to_user
+

@@ -11,7 +11,7 @@
 .
 .
 .
-The configuration for pipeline and policies was chosen automatically. It was written into the config file at 'config.yml'.
+The configuration for pipeline and policraies was chosen automatically. It was written into the config file at 'config.yml'.
 .
 .
 .

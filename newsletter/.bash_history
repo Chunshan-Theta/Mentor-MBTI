@@ -10,3 +10,29 @@ rasa shell
 rasa train
 rasa shell
 exit
+rasa train && rasa shell
+rasa train && rasa shell
+rasa interactive
+rasa interactive
+rasa interactive
+rasa interactive
+rasa interactive
+rasa interactive
+clear
+rasa interactive
+rasa interactive
+clear
+rasa interactive
+rasa interactive
+clear
+rasa intera
+clear
+rasa train && rasa shell
+exit
+rasa train && rasa shell
+rasa interactive
+rasa interactive
+clear
+rasa interactive
+rasa interactive
+exit

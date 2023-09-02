@@ -99,7 +99,15 @@ nlu:
     - gmail is work?
     - email address?
     - why you need my email address?
-    - google mail is working?
+    - google mail is working
     - gmail address is work?
     - [gavin19950511@gmail.com](email) here
     - [hello@yahoo.com.tw](email) is my option
+- intent: inform_name
+  examples: |
+    - hi, my name is [Theta](username)
+    - Call me [Tom](username)
+    - my full name is [chun shan, wang](username)
+    - [Amy](username)
+    - Sure, My name is [Kim](username)
+    - Sure, call me [Tony](username)
