@@ -38,8 +38,8 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 entities:
-- username
 - email
+- username
 - service
 slots:
   username:
@@ -70,9 +70,9 @@ forms:
     required_slots:
     - username
 actions:
-- utter_greet
-- utter_say_hi_to_user
+- utter_inform_client_email
 - utter_ask_email
 - utter_required_news_letter_service
-- utter_inform_client_email
+- utter_greet
+- utter_say_hi_to_user
 - utter_ask_username

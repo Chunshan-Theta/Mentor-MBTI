@@ -26,7 +26,6 @@ stories:
   - user: |
       [Kim](username)
     intent: "inform_name"
-
   - action: utter_say_hi_to_user
   - action: action_listen
 
@@ -39,3 +38,23 @@ stories:
   - action: utter_greet
   - action: user_name_form
   - active_loop: user_name_form
+
+
+
+- story: A test story with a email form (1)
+  steps:
+  - user: |
+      subscribe
+    intent: required_news_letter_service
+  - action: utter_required_news_letter_service
+  - action: newsletter_form
+  - active_loop: newsletter_form
+  - user: |
+      gmail is working for this?
+    intent: inform_client_email
+  - action: utter_ask_email
+  - user: |
+      Please send to [greatmailservice@mail.com](email)
+    intent: inform_client_email
+  - action: utter_inform_client_email
+  - action: action_listen

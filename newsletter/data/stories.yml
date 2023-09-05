@@ -2,6 +2,12 @@ version: "3.1"
 
 stories:
 
+- story: interactive_story_1
+  steps:
+  - intent: inform_name
+  - action: utter_say_hi_to_user
+
+
 - story: User want to subscript news letter service
   steps:
   - intent: required_news_letter_service
@@ -11,9 +17,17 @@ stories:
   - action: utter_inform_client_email
 
 
-
-
-- story: interactive_story_1
+- story: interactive_story_2
   steps:
-  - intent: inform_name
-  - action: utter_say_hi_to_user
+  - intent: inform_client_email
+  - slot_was_set:
+    - requested_slot: email
+  - action: utter_ask_email
+
+- story: interactive_story_3
+  steps:
+  - action: utter_ask_email
+  - intent: inform_client_email
+  - slot_was_set:
+    - requested_slot: null
+  - action: utter_inform_client_email

@@ -92,6 +92,7 @@ nlu:
     - subscribe
 - intent: inform_client_email
   examples: |
+    - gmail is working for this?
     - yes,  My email address is [ThetaWany@greatmail.com](email)
     - [boyboy@gmail.com.tw](email)
     - Please send to [coolguy2023@hotmail.com](email)
@@ -103,6 +104,7 @@ nlu:
     - gmail address is work?
     - [gavin19950511@gmail.com](email) here
     - [hello@yahoo.com.tw](email) is my option
+    - Please send to [greatmailservice@mail.com](email)
 - intent: inform_name
   examples: |
     - hi, my name is [Theta](username)
@@ -112,5 +114,4 @@ nlu:
     - Sure, My name is [Kim](username)
     - Sure, call me [Tony](username)
     - Just call me [Jin](username)
-    - My name is [Sophaya](username)
     - My name is [Sophaya](username)
