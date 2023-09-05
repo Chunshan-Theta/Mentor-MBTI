@@ -70,8 +70,8 @@ forms:
     required_slots:
     - username
 actions:
-- utter_say_hi_to_user
 - utter_greet
+- utter_say_hi_to_user
 - utter_ask_email
 - utter_required_news_letter_service
 - utter_inform_client_email
