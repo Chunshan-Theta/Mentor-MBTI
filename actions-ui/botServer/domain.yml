@@ -10,6 +10,9 @@ intents:
   - bot_challenge
 
 responses:
+  utter_ask_scope_bug:
+  - text: "你對昆蟲很興趣呢"
+
   utter_greet:
   - text: "Hey! How are you?"
 

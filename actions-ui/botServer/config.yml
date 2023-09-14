@@ -8,7 +8,7 @@ assistant_id: 20230909-060535-flat-journal
 
 # Configuration for Rasa NLU.
 # https://rasa.com/docs/rasa/nlu/components/
-language: en
+language: zh
 
 pipeline: null
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.

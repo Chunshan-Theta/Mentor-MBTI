@@ -3,6 +3,8 @@ version: "3.8"
 services:
   rasa-actionServer:
     image: rasa/rasa:3.6.6-full
+    security_opt:
+      - seccomp:unconfined
     working_dir: /app
     volumes:
       - ./actionsServer:/app
@@ -10,8 +12,10 @@ services:
 
   rasa-botServer:
     image: rasa/rasa:3.6.6-full
+    security_opt:
+      - seccomp:unconfined
     working_dir: /app
     volumes:
       - ./botServer:/app
-    command: run
+    command: --version
 
