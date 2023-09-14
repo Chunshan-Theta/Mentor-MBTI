@@ -1,34 +1,48 @@
 version: "3.1"
 
 nlu:
+- regex: say_yes
+  examples: |
+    - \bhelp\b
+
 - intent: greet
   examples: |
-    - hey
     - hello
     - hi
-    - hello there
-    - good morning
-    - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
+    - 你好
+    - 早安
+    - 哈囉
 
-- intent: goodbye
+
+- intent: ask
   examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
-    - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
+    - 人類的行為和自然界的互動有哪些關聯？
+    - 生物多樣性在城市環境中的保育方法有哪些？
+    - 動植物的共生關係如何影響生態系統的穩定性？
+    - 氣候變化對海洋生態系統的影響是什麼？
+    - 物種遷徙對生態平衡的影響如何評估？
+    - 人類活動如何影響土壤生態系統？
+    - 生物醫學工程如何改善醫療診斷和治療？
+    - 基因編輯技術對未來人類進化的影響是什麼？
+    - 人工智慧如何應用於生物醫學領域？
+    - 細菌的抗藥性如何威脅公共衛生？
+    - 生態旅遊如何促進自然保育和地方經濟發展？
+    - 遺傳學研究對人類起源和遷徙的啟示是什麼？
+    - 基因組學如何改變醫學診斷和治療方法？
+    - 微生物在食品生產中的作用有哪些？
+    - 生物多樣性減少對人類社會的影響如何評估？
+    - 植物對大氣中二氧化碳的吸收對氣候變化的影響是什麼？
+    - 城市化對野生動植物遷徙的影響如何緩解？
+    - 飛行動物的遷徙行為如何受到地理和氣候因素的影響？
+    - 人類對海洋生態系統的過度捕撈如何影響漁業永續性？
+    - 電子廢棄物對水生生態系統的影響如何預防？
+    - 人類對森林生態系統的干擾如何影響生態平衡？
+    - 氣候變化如何影響昆蟲的生態行為和分佈？
+    - 人類活動如何影響地球的碳循環？
+    - 遺傳工程作物對糧食安全和生態平衡的影響如何評估？
+    - 草地生態系統的保育對抗荒漠化有何作用？
+    - 人類如何運用生物科技來解決環境問題？
+
 
 - intent: affirm
   examples: |
@@ -38,7 +52,25 @@ nlu:
     - of course
     - that sounds good
     - correct
+    - 好的
+    - 是
+    - 對的
+    - 對的,我的問題是人類如何運用生物科技來解決環境問題？
+    - 是的，遺傳工程技術已經在改善作物產量方面取得了顯著成就。
+    - 當然，微生物在糧食生產中發揮著至關重要的作用。
+    - 沒錯，人類的生活方式對環境有著深遠的影響。
+    - 正確，生物多樣性的保育對維護生態平衡至關重要。
+    - 確實如此，生態旅遊是促進保護自然環境的一種方式。
+    - 沒錯，基因編輯技術為醫學研究開辟了嶄新的途徑。
+    - 是的，遺傳多樣性在維持生態系統穩定性方面起著關鍵作用。
+    - 絕對正確，氣候變化對全球生態系統構成了嚴重威脅。
+    - 沒錯，綠色能源技術是應對氣候變化的重要解決方案之一。
+    - 確實如此，生物醫學工程已經為醫學診斷和治療帶來了革命性的變革。
+    - 是的，生態學和環境科學在研究方法和焦點上存在著一些區別。
+    - 正確，生態系統的穩定性和彈性是保持生態平衡的關鍵。
+    - 當然，草地生態系統對防止土地荒漠化起著至關重要的作用。
 
+    
 - intent: deny
   examples: |
     - no
@@ -48,44 +80,18 @@ nlu:
     - don't like that
     - no way
     - not really
+    - 不對
+    - 不是
+    - 沒有
+    - 不對，我問的是生態系統的穩定性和彈性之間的主要區別是什麼？
+    - 不是這樣的，我問的是植物對空氣品質和人類健康的影響如何研究？
+    - 不是的，我問的是人類如何影響河流和湖泊生態系統的健康？
+    - 不是這樣的，我問的是生物多樣性保育對全球氣候變化的影響如何評估？
+    - 這並不正確，我詢問的是氣候變化如何影響昆蟲的生態行為和分佈？
+    - 不是這樣的，我問的是生物磁場在動物遷徙中的作用是什麼？
+    - 這並不對，我問的是生態系統的穩定性和彈性之間的主要區別是什麼？
+    - 不是這樣的，我問的是人類如何影響水域生態系統的生物多樣性？
+    - 不是的，我問的是微生物在食品生產中的作用有哪些？
+    - 這不是我的問題，我問的是疫苗製造過程如何運用生物技術？
+    - 這不是我問的，我問的是人工智慧如何應用於生物醫學領域？
 
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
-
-- intent: bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
