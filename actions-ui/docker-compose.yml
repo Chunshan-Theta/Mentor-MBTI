@@ -1,14 +1,22 @@
 ---
 version: "3.8"
 services:
-  rasa-actionServer:
+  # rasa-actionServer:
+  #   image: rasa/rasa:3.6.6-full
+  #   security_opt:
+  #     - seccomp:unconfined
+  #   working_dir: /app
+  #   volumes:
+  #     - ./actionsServer:/app
+  #   command: run actions
+  training-model:
     image: rasa/rasa:3.6.6-full
     security_opt:
       - seccomp:unconfined
     working_dir: /app
     volumes:
       - ./actionsServer:/app
-    command: run actions
+    command: train
 
   rasa-botServer:
     image: rasa/rasa:3.6.6-full
@@ -16,6 +24,13 @@ services:
       - seccomp:unconfined
     working_dir: /app
     volumes:
-      - ./botServer:/app
-    command: --version
+      - ./actionsServer:/app
+    depends_on:
+      training-model: 
+        condition: service_completed_successfully
+    command: run
+    ports:
+      - "5005:5005"
+      - "5006:5006"
+
 
