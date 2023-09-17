@@ -7,6 +7,11 @@ stories:
   - intent: greet
   - action: utter_greet
 
+- story: chat path
+  steps:
+  - intent: chat
+  - action: utter_chat
+
 - story: deny path
   steps:
   - intent: deny
@@ -21,3 +26,4 @@ stories:
   steps:
   - intent: ask
   - action: utter_ask
+  - action: action_refactor_question
