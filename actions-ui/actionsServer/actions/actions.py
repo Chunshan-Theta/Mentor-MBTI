@@ -21,7 +21,16 @@ class RefactorQuestion(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        # text_latest_message=f"text_latest_message: {tracker.latest_message}
+        slotNewQuestion = tracker.get_slot('newQuestion')
+        userContent = tracker.latest_message['text']
+        # dispatcher.utter_message(text="get_slot(newQuestion): "+str(slotNewQuestion))
+        # dispatcher.utter_message(text="get_slot(newQuestion): "+str(userContent))
 
-        dispatcher.utter_message(text=str(tracker))
+        # dispatcher.utter_message(text=f"text_latest_message"+text_latest_message)
 
-        return [SlotSet("newQuestion","Tony")]
+        dispatcher.utter_message(text="GPT的回應")
+        return [
+            SlotSet("newQuestion","Tony")
+        ]

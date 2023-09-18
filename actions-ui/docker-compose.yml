@@ -8,7 +8,9 @@ services:
     working_dir: /app
     volumes:
       - ./actionsServer:/app
+    # entrypoint: /bin/bash -c "pip install -r requirement.txt && rasa run actions"
     command: run actions
+
   training-model:
     image: rasa/rasa:3.6.6-full
     security_opt:
