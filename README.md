@@ -47,7 +47,7 @@ docker run --rm -it -v "./newsletter:/app" --name rasa -p 5005:5005 -p 5006:5006
 
 #### newsletter service: get client email and reply
 `create by interactive mode`
-[here](./README-example-newsletter.md)
+[here](./example/newsletter/README-example-newsletter.md)
 
 
 

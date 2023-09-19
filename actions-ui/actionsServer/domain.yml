@@ -1,0 +1,45 @@
+version: "3.1"
+
+intents:
+  - greet
+  - affirm
+  - deny
+  - ask
+
+responses:
+  utter_greet:
+  - text: "哈囉 我是學習小幫手！目前學習上有遇到什麼問題嗎"
+  utter_affirm:
+  - text: "讓我來幫你解答問題"
+  utter_deny:
+  - text: "請您再說明一次您的問題"
+  utter_ask:
+  - text: "您的問題是這個嗎："
+  utter_chat:
+  - text: "這不是我們要討論的問題喔"
+
+
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+actions:
+  - action_refactor_question
+  - action_answer_question
+
+slots:
+  newQuestion:
+    type: text
+    influence_conversation: true
+    initial_value: null
+    mappings:
+      - type: custom
+
+  questionsHistory:
+    type: list
+    influence_conversation: true
+    initial_value: null
+    mappings:
+      - type: custom

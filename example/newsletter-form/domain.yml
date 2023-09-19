@@ -1,0 +1,78 @@
+version: '3.1'
+intents:
+- affirm
+- bot_challenge
+- deny
+- goodbye
+- greet
+- inform_client_email
+- inform_name
+- mood_great
+- mood_unhappy
+- required_news_letter_service
+responses:
+  utter_required_news_letter_service:
+  - text: May I have your email address?
+  utter_inform_client_email:
+  - text: done! you had subscripted by {email}!
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - text: 'Here is something to cheer you up:'
+    image: https://i.imgur.com/nGF1K8f.jpg
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_ask_email:
+  - text: please tell me your email address. like `example@mail.com`
+  utter_ask_username:
+  - text: Could you give me your name?
+  utter_say_hi_to_user:
+  - text: hi! {username}
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+entities:
+- email
+- username
+- service
+slots:
+  username:
+    type: text
+    influence_conversation: true
+    initial_value: null
+    mappings:
+    - type: from_entity
+      entity: username
+  email:
+    type: text
+    influence_conversation: true
+    initial_value: null
+    mappings:
+    - type: from_entity
+      entity: email
+  service:
+    type: text
+    initial_value: null
+    mappings:
+    - type: from_entity
+      entity: service
+forms:
+  newsletter_form:
+    required_slots:
+    - email
+  user_name_form:
+    required_slots:
+    - username
+actions:
+- utter_inform_client_email
+- utter_ask_email
+- utter_required_news_letter_service
+- utter_greet
+- utter_say_hi_to_user
+- utter_ask_username
