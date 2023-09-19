@@ -22,7 +22,7 @@ def callGpt(
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer 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'
+        'Authorization': 'Bearer <GPT-KEY>'
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
