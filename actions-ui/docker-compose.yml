@@ -18,7 +18,7 @@ services:
     working_dir: /app
     volumes:
       - ./actionsServer:/app
-    command: train
+    command: --help #train
 
   rasa-botServer:
     image: rasa/rasa:3.6.6-full
@@ -30,9 +30,14 @@ services:
     depends_on:
       training-model: 
         condition: service_completed_successfully
-    command: run
+    command: run --cors "*"
     ports:
       - "5005:5005"
       - "5006:5006"
-
+  web:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./web:/usr/share/nginx/html
 

@@ -20,7 +20,7 @@ stories:
 - story: affirm path
   steps:
   - intent: affirm
-  - action: utter_affirm
+  # - action: utter_affirm
   - action: action_answer_question
 
 - story: ask path
