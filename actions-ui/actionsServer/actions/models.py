@@ -22,12 +22,15 @@ def callGpt(
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer <GPT-KEY>'
+        'Authorization': 'Bearer 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'
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
+    try:
+        return str(response.json()['choices'][0]['message']['content'])
+    except:
+        return "ERROR:"+str(response.text)
 
-    return str(response.json()['choices'][0]['message']['content'])
 
 def callGPT_finetuneQuestion(userText: str) -> str:
         return callGpt(userText, [
@@ -49,7 +52,7 @@ def callGPT_AnswerQuestion(userText: str) -> str:
                     "role": "system",
                     "content": """
                     我們是一個自然科的討論課程，你是這堂課的教師，你負責回應學生的問題，請理解學生的問題後提出明確的。
-                    切記我們不提出自然以外的內容，所有提出的問題維持在自然領域之中。
+                    切記我們不提出自然以外的內容，所有確保回應維持在自然領域之中，並在200個字內回答問題。
                     """
                 },
                 {"role": "user", "content": "請問蜘蛛是八隻腳嗎"},

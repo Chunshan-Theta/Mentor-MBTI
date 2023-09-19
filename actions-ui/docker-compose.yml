@@ -18,7 +18,7 @@ services:
     working_dir: /app
     volumes:
       - ./actionsServer:/app
-    command: --help #train
+    command: train
 
   rasa-botServer:
     image: rasa/rasa:3.6.6-full
