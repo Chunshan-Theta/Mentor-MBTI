@@ -1,0 +1,30 @@
+version: "3.1"
+
+stories:
+
+- story: hi path
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- story: chat path
+  steps:
+  - intent: chat
+  - action: utter_chat
+
+- story: deny path
+  steps:
+  - intent: deny
+  - action: utter_deny
+
+- story: affirm path
+  steps:
+  - intent: affirm
+  # - action: utter_affirm
+  - action: action_answer_question
+
+- story: ask path
+  steps:
+  - intent: ask
+  - action: utter_ask
+  - action: action_refactor_question
