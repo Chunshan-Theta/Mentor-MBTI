@@ -1,5 +1,5 @@
 # RASA
-This is a rasa sample project. we setup a mentor agent with rasa and chatgpt.
+This is a mentor bot that can help be a recommander by rasa and LLM.
 
 #### Demo service
 - up service
