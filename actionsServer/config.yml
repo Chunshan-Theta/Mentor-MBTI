@@ -25,6 +25,9 @@ pipeline:
    - name: FallbackClassifier
      threshold: 0.3
      ambiguity_threshold: 0.1
+   - name: ResponseSelector
+     epochs: 100
+     retrieval_intent: faq
   
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # # If you'd like to customize it, uncomment and adjust the pipeline.
@@ -51,6 +54,7 @@ pipeline:
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
 policies:
+   - name: RulePolicy
    - name: MemoizationPolicy
    - name: TEDPolicy
      max_history: 5

@@ -13,26 +13,30 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from .models import callGPT_finetuneQuestion, callGPT_AnswerQuestion
 
-class RefactorQuestion(Action):
+
+def getStage(t: Tracker): return t.get_slot('stage')
+
+class ActionFAQ(Action):
 
     def name(self) -> Text:
-        return "action_refactor_question"
+        return "action_faq"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        # text_latest_message=f"text_latest_message: {tracker.latest_message}
-        slotNewQuestion = tracker.get_slot('newQuestion')
-        userContent = tracker.latest_message['text']
+        text_latest_message="text_latest_message:"+str(tracker.latest_message)
+        dispatcher.utter_message(text=text_latest_message)
+
+        stage = getStage(tracker)
         # dispatcher.utter_message(text="get_slot(newQuestion): "+str(slotNewQuestion))
         # dispatcher.utter_message(text="get_slot(newQuestion): "+str(userContent))
 
         # dispatcher.utter_message(text=f"text_latest_message"+text_latest_message)
-        gptResponse = callGPT_finetuneQuestion(userContent)
-        dispatcher.utter_message(text=gptResponse)
+        # gptResponse = callGPT_finetuneQuestion(userContent)
+        # dispatcher.utter_message(text=gptResponse)
         return [
-            SlotSet("newQuestion", gptResponse)
+            SlotSet("stage", "CustomAction")
         ]
 
 class AnswerQuestion(Action):
