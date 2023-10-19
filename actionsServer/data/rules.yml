@@ -5,7 +5,7 @@ rules:
 - rule: For Chit Chat
   steps:
   - intent: other
-  - action: utter_other
+  - action: utter_other/chitchat
 
 - rule: FAQ Stage
   steps:
