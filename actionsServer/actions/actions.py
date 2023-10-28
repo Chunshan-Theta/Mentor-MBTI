@@ -14,6 +14,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from .models import callGPT_AnswerQuestion
 from .db import getKN
 import json
+import os
 
 
 def send(d: CollectingDispatcher, obj: Any): d.utter_message(str(obj))
@@ -36,7 +37,10 @@ class ActionFAQ(Action):
         topOneKey: str = faqRanking[0]['intent_response_key'][4:]
         topOneConf: float = faqRanking[0]['confidence']
         examples: List[Dict[str, str]] = getKN(topOneKey)
-        dispatcher.utter_message(text=callGPT_AnswerQuestion(examples, userText))
+        result, rqBody = callGPT_AnswerQuestion(examples, userText)
+        dispatcher.utter_message(text=result)
+        if os.environ.get("ActionServerMode", None) == "debug":
+            dispatcher.utter_message(text=str(rqBody))
 
         stage = getStage(tracker)
         # dispatcher.utter_message(text="get_slot(newQuestion): "+str(slotNewQuestion))
