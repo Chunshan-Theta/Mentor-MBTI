@@ -18,6 +18,7 @@ session_config:
 
 actions:
   - action_faq
+  - utter_other/chitchat
 
 slots:
   stage:
