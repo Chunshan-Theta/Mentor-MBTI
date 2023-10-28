@@ -8,6 +8,9 @@ services:
     working_dir: /app
     volumes:
       - ./actionsServer:/app
+    environment:
+      - ChatGPTApiKey=
+      - ActionServerMode=
     # entrypoint: /bin/bash -c "pip install -r requirement.txt && rasa run actions"
     command: run actions
 
@@ -39,6 +42,7 @@ services:
     working_dir: /app
     volumes:
       - ./actionsServer:/app
+    
     depends_on:
       training-model: 
         condition: service_completed_successfully

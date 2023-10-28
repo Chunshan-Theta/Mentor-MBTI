@@ -1,6 +1,7 @@
 import requests
 import json
 from typing import List, Any, Dict
+import os
 
 def genExample(example: Dict[str, str]): return  [
     {"role": "user", "content": example["question"]},
@@ -26,7 +27,7 @@ def callGpt(
     headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer <GPT-KEY>'
+        'Authorization': 'Bearer '+ os.environ.get("ChatGPTApiKey", "None")
     }
 
     response = requests.request("POST", url, headers=headers, data=payload)
@@ -50,7 +51,7 @@ def callGpt(
 #                 {"role": "user", "content": userText}
 #         ],0.3)
 
-def callGPT_AnswerQuestion(examples: List[Dict[str, str]],userText: str) -> str:
+def callGPT_AnswerQuestion(examples: List[Dict[str, str]],userText: str) -> (str, List[Dict[str,str]]):
 
         body: List[Dict[str,str]] = [
                 {
@@ -66,5 +67,5 @@ def callGPT_AnswerQuestion(examples: List[Dict[str, str]],userText: str) -> str:
             body.extend(genExample(e))
         
         body.extend([{"role": "user", "content": userText}])
-        return callGpt(userText, body,0.7)
+        return callGpt(userText, body,0.7), body
         
