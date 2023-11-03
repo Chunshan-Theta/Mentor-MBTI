@@ -18,31 +18,26 @@ import os
 
 
 def send(d: CollectingDispatcher, obj: Any): d.utter_message(str(obj))
-def getStage(t: Tracker): return t.get_slot('stage')
+def getSlot_Stage(t: Tracker): return t.get_slot('stage')
 def getUserLatestMEG(t: Tracker): return t.latest_message
 def getUserText(t: Tracker): return getUserLatestMEG(t)["text"]
 
-class ActionFAQ(Action):
+class ActionAskGptAnalysisStory(Action):
 
     def name(self) -> Text:
-        return "action_faq"
+        return "action_ask_gpt_analysis_story"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         userText: str = getUserText(tracker)
-        result, rqBody = callGPT_AnswerQuestion(examples, userText)
-        dispatcher.utter_message(text=result)
-        if os.environ.get("ActionServerMode", None) == "debug":
-            dispatcher.utter_message(text=str(rqBody))
+        #result, rqBody = callGPT_AnswerQuestion(examples, userText)
+        dispatcher.utter_message(text=userText)
+        #if os.environ.get("ActionServerMode", None) == "debug":
+        #    dispatcher.utter_message(text=str(rqBody))
 
-        stage = getStage(tracker)
-        # dispatcher.utter_message(text="get_slot(newQuestion): "+str(slotNewQuestion))
-        # dispatcher.utter_message(text="get_slot(newQuestion): "+str(userContent))
-
-        # dispatcher.utter_message(text=f"text_latest_message"+text_latest_message)
-        # gptResponse = callGPT_finetuneQuestion(userContent)
-        # dispatcher.utter_message(text=gptResponse)
-        return [
-            SlotSet("stage", "CustomAction")
-        ]
+        # stage = getSlot_Stage(tracker)
+        return []
+        # return [
+        #     SlotSet("stage", "CustomAction")
+        # ]
