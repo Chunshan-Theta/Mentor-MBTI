@@ -20,6 +20,7 @@ import os
 def send(d: CollectingDispatcher, obj: Any): d.utter_message(str(obj))
 def getStage(t: Tracker): return t.get_slot('stage')
 def getUserLatestMEG(t: Tracker): return t.latest_message
+def getUserText(t: Tracker): return getUserLatestMEG(t)["text"]
 
 class ActionFAQ(Action):
 
@@ -29,14 +30,7 @@ class ActionFAQ(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-        obj_TLM =getUserLatestMEG(tracker)
-
-        faqRanking: list[Dict[str,Any]] = obj_TLM["response_selector"]['faq']['ranking']
-        userText: str = obj_TLM["text"]
-        topOneKey: str = faqRanking[0]['intent_response_key'][4:]
-        topOneConf: float = faqRanking[0]['confidence']
-        examples: List[Dict[str, str]] = getKN(topOneKey)
+        userText: str = getUserText(tracker)
         result, rqBody = callGPT_AnswerQuestion(examples, userText)
         dispatcher.utter_message(text=result)
         if os.environ.get("ActionServerMode", None) == "debug":
