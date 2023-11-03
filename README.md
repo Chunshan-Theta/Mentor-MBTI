@@ -4,37 +4,6 @@ This is a mentor bot that can help to analysis user personality, built with rasa
 # Design
 
 ```
-intents:
-  - intent: user_response
-  - intent: user_greet
-  - intent: user_confirm  
-
-actions:
-  - action: utter_introduct_the_bot_game
-  - action: utter_story_start
-  - action: utter_will_finish_story
-
-  - action: action_solt_welcome_stage_set_false
-  - action: action_solt_story_stage_set_started
-  - action: action_solt_story_stage_set_finished
-  - action: action_ask_gpt_analysis_story
-  - action: action_ask_gpt_extend_story
-
-slots:
-  story_stage:
-    type: text
-    influence_conversation: true
-    initial_value: "waited"
-    mappings:
-      - type: custom
-
-  welcome_stage:
-    type: boolean
-    influence_conversation: true
-    initial_value: true
-    mappings:
-      - type: custom
-
 rules:
 - rule: introduction to user
   condition:
@@ -70,7 +39,47 @@ stories:
   - action: utter_will_finish_story
   - intent: user_confirm
   - action: action_ask_gpt_analysis_story
+```
 
+- more config
+```
+intents:
+  - intent: user_response
+  - intent: user_greet
+  - intent: user_confirm  
+
+regex: user_response
+  examples: |
+    - ^/我覺得.*$
+    - ^/我想要.*$
+    - ^/我會.*$
+
+
+actions:
+  - action: utter_introduct_the_bot_game
+  - action: utter_story_start
+  - action: utter_will_finish_story
+
+  - action: action_solt_welcome_stage_set_false
+  - action: action_solt_story_stage_set_started
+  - action: action_solt_story_stage_set_finished
+  - action: action_ask_gpt_analysis_story
+  - action: action_ask_gpt_extend_story
+
+slots:
+  story_stage:
+    type: text
+    influence_conversation: true
+    initial_value: "waited"
+    mappings:
+      - type: custom
+
+  welcome_stage:
+    type: boolean
+    influence_conversation: true
+    initial_value: true
+    mappings:
+      - type: custom
 
 ```
 
