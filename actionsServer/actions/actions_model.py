@@ -11,8 +11,8 @@ from typing import Any, Text, Dict, List
 from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from .models import callGPT_AnswerQuestion
-from .db import getKN
+# from .models import callGPT_AnswerQuestion
+# from .db import getKN
 import json
 import os
 
@@ -32,7 +32,7 @@ class ActionAskGptAnalysisStory(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         userText: str = getUserText(tracker)
         #result, rqBody = callGPT_AnswerQuestion(examples, userText)
-        dispatcher.utter_message(text=userText)
+        dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_analysis_story`")
         #if os.environ.get("ActionServerMode", None) == "debug":
         #    dispatcher.utter_message(text=str(rqBody))
 
@@ -41,3 +41,16 @@ class ActionAskGptAnalysisStory(Action):
         # return [
         #     SlotSet("stage", "CustomAction")
         # ]
+
+
+class ActionAskGptExtendStory(Action):
+    def name(self) -> Text:
+        return "action_ask_gpt_extend_story"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
+
+        return []
