@@ -1,13 +1,10 @@
-version: "3.1"
+# version: "3.1"
 
-rules:
-
-- rule: For Chit Chat
-  steps:
-  - intent: other
-  - action: utter_other/chitchat
-
-- rule: FAQ Stage
-  steps:
-  - intent: faq
-  - action: action_faq
+# rules:
+#   - rule: finish the game
+#     condition:
+#       - slot_was_set:
+#         - story_stage: "finished"
+#     steps:
+#       - intent: user_confirm
+#       - action: action_ask_gpt_analysis_story
