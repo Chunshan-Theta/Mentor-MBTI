@@ -5,9 +5,14 @@ intents:
   - other
 
 responses:
-  utter_other/chitchat:
-  - text: "哈囉 我是學習小幫手！目前學習上有遇到什麼問題嗎"
-
+  utter_introduct_the_bot_game:
+  - text: "準備開始遊戲"
+  utter_story_start:
+  - text: "遊戲開始 說出選擇"
+  utter_will_finish_story:
+  - text: "遊戲將要結束 進行分析"
+  
+  
 
 
 
@@ -17,14 +22,28 @@ session_config:
   carry_over_slots_to_new_session: true
 
 actions:
-  - action_faq
-  - utter_other/chitchat
+  - utter_introduct_the_bot_game
+  - utter_story_start
+  - utter_will_finish_story
+  - action_solt_welcome_stage_set_false
+  - action_solt_story_stage_set_started
+  - action_solt_story_stage_set_finished
+  - action_ask_gpt_analysis_story
+  - action_ask_gpt_extend_story
+
 
 slots:
-  stage:
+  story_stage:
     type: text
     influence_conversation: true
-    initial_value: null
+    initial_value: "waited"
+    mappings:
+      - type: custom
+
+  welcome_stage:
+    type: bool
+    influence_conversation: true
+    initial_value: true
     mappings:
       - type: custom
 
