@@ -18,7 +18,7 @@ import os
 
 
 def send(d: CollectingDispatcher, obj: Any): d.utter_message(str(obj))
-def getSlot_Stage(t: Tracker): return t.get_slot('stage')
+def getSlot_StoryStage(t: Tracker): return t.get_slot('story_stage')
 def getUserLatestMEG(t: Tracker): return t.latest_message
 def getUserText(t: Tracker): return getUserLatestMEG(t)["text"]
 
@@ -52,5 +52,14 @@ class ActionAskGptExtendStory(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
+        dispatcher.utter_message(text="user_text: `"+getUserText(tracker)+"`")
 
-        return []
+        if getUserText(tracker) == "NEXT":
+
+            dispatcher.utter_message(text="遊戲將要結束 進行分析")
+            return [
+                SlotSet("story_started", False),
+                SlotSet("story_finished", True)
+            ]
+        else:
+            return []

@@ -4,41 +4,39 @@ This is a mentor bot that can help to analysis user personality, built with rasa
 # Design
 
 ```
+
 rules:
-- rule: introduction to user
-  condition:
-  - slot_was_set:
-    - welcome_stage: true
-  steps:
-  - or
-    - intent: user_greet
-    - intent: user_response
-    - intent: user_confirm
-  - action: utter_introduct_the_bot_game
-  - intent: user_confirm
-  - action: utter_story_start
-  - action: action_solt_story_stage_set_started
-  - action: action_solt_welcome_stage_set_false
+- **
+  - story: introduction to user
+    steps:
+      - slot_was_set:
+        - welcome_stage: true
+      - or:
+        - intent: user_response
+        - intent: user_greet
+        - intent: user_confirm
+      - action: utter_introduct_the_bot_game
+      - action: action_solt_story_stage_set_started
+      - action: action_solt_welcome_stage_set_false
 
+  - story: start to response to bot's story
+    steps:
+      - intent: user_response
+      - slot_was_set:
+        - welcome_stage: false
+        - story_started: true
+      - action: action_ask_gpt_extend_story
+      - action: action_solt_story_started_set_false
+      - action: action_solt_story_finished_set_true
 
+  - story: finish the game 
+    steps:
+      - slot_was_set:
+        - story_started: false
+        - story_finished: true
+      - intent: user_confirm
+      - action: action_ask_gpt_analysis_story
 
-stories:
-- story: response to bot's story
-  steps:
-  - slot_was_set:
-    - welcome_stage: false
-    - story_stage: "started"
-  - or
-    - intent: user_response
-    - intent: user_greet
-    - intent: user_confirm
-  - action: action_ask_gpt_extend_story
-  - action: action_solt_story_stage_set_finished
-  - slot_was_set:
-    - story_stage: "finished"
-  - action: utter_will_finish_story
-  - intent: user_confirm
-  - action: action_ask_gpt_analysis_story
 ```
 
 - more config
@@ -54,34 +52,46 @@ regex: user_response
     - ^/我想要.*$
     - ^/我會.*$
 
+regex: user_confirm
+  examples: |
+    - ^/.*好的.*$
+    - ^/.*繼續.*$
+    - ^/.*開始.*$
+    - ^/.*沒問題.*$
 
 actions:
-  - action: utter_introduct_the_bot_game
-  - action: utter_story_start
-  - action: utter_will_finish_story
-
-  - action: action_solt_welcome_stage_set_false
-  - action: action_solt_story_stage_set_started
-  - action: action_solt_story_stage_set_finished
-  - action: action_ask_gpt_analysis_story
-  - action: action_ask_gpt_extend_story
+  - utter_introduct_the_bot_game
+  - utter_story_start
+  - utter_will_finish_story
+  - action_solt_welcome_stage_set_false
+  - action_solt_story_stage_set_started
+  - action_solt_story_stage_set_finished
+  - action_ask_gpt_analysis_story
+  - action_ask_gpt_extend_story
 
 slots:
-  story_stage:
-    type: text
-    influence_conversation: true
-    initial_value: "waited"
+  story_started:
+    type: bool
+    initial_value: false
     mappings:
       - type: custom
-
+  story_finished:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: custom
   welcome_stage:
-    type: boolean
-    influence_conversation: true
+    type: bool
     initial_value: true
-    mappings:
-      - type: custom
 
 ```
+### Design Demo
+![img]("./doc/basic-structure.png")
+
+
+
+
+
 
 # Service
 

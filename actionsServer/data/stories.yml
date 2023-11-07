@@ -14,22 +14,50 @@ stories:
       - action: utter_story_start
       - action: action_solt_story_stage_set_started
       - action: action_solt_welcome_stage_set_false
-  - story: response to bot's story
-    steps:
+      - intent: user_response
       - slot_was_set:
         - welcome_stage: false
-        - story_stage: "started"
-      - or:
-        - intent: user_response
-        - intent: user_greet
-        - intent: user_confirm
+        - story_started: true
       - action: action_ask_gpt_extend_story
-    # - action: action_solt_story_stage_set_finished
-    # - action: utter_will_finish_story
-
-  - story: finish the game
+      
+  - story: start to response to bot's story
     steps:
+      - intent: user_response
       - slot_was_set:
-        - story_stage: "finished"
+        - welcome_stage: false
+        - story_started: true
+      - action: action_ask_gpt_extend_story
+      - intent: user_response
+      - slot_was_set:
+        - welcome_stage: false
+        - story_started: true
+      - action: action_ask_gpt_extend_story
+    # - action: action_solt_story_started_set_false
+    # - action: action_solt_story_finished_set_true
+
+  - story: finish the game (1)
+    steps:
+      - intent: user_response
+      - slot_was_set:
+        - welcome_stage: false
+        - story_started: true
+      - action: action_ask_gpt_extend_story
+      - intent: user_response
+      - slot_was_set:
+        - story_started: false
+        - story_finished: true
       - intent: user_confirm
+      - action: action_ask_gpt_analysis_story
+
+  - story: finish the game (2)
+    steps:
+      - intent: user_response
+      - slot_was_set:
+        - welcome_stage: false
+        - story_started: true
+      - action: action_ask_gpt_extend_story
+      - slot_was_set:
+        - story_started: false
+        - story_finished: true
+      - intent: user_response
       - action: action_ask_gpt_analysis_story

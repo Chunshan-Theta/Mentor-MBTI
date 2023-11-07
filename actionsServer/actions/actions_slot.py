@@ -45,7 +45,7 @@ class ActionSoltStoryStageSetStarted(Action):
 
 
         dispatcher.utter_message(text="CALL CUSTOM ACTION `action_solt_story_stage_set_started`")
-        return [SlotSet("story_stage", "started")]
+        return [SlotSet("story_started", True)]
 
 
 class ActionSoltStoryStageSetFinished(Action):
@@ -57,4 +57,4 @@ class ActionSoltStoryStageSetFinished(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         dispatcher.utter_message(text="CALL CUSTOM ACTION `action_solt_story_stage_set_finished`")
-        return [SlotSet("story_stage", "finished")]
+        return [SlotSet("story_finished", True)]

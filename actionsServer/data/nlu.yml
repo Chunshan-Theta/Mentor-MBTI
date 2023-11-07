@@ -20,6 +20,8 @@ nlu:
       - 好的
       - 了解
       - 沒問題
+      - go
+      - ok
 
   - regex: user_response
     examples: |

@@ -33,13 +33,18 @@ actions:
 
 
 slots:
-  story_stage:
-    type: text
+  story_started:
+    type: bool
     influence_conversation: true
-    initial_value: "waited"
+    initial_value: false
     mappings:
       - type: custom
-
+  story_finished:
+    type: bool
+    influence_conversation: true
+    initial_value: false
+    mappings:
+      - type: custom
   welcome_stage:
     type: bool
     influence_conversation: true
