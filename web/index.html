@@ -78,12 +78,15 @@
             document.getElementById("messageInput").value = "";
 
             // Send POST request to Backend Service
-            fetch('https://refactored-space-fishstick-4jg4q796576h5x4w-5005.app.github.dev/webhooks/rest/webhook/', {
+            fetch('https://expert-acorn-7vrq794wq66hr9v5-5005.app.github.dev/webhooks/rest/webhook/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ message: message.replaceAll(' ','') }),
+                body: JSON.stringify({ 
+                    message: message.replaceAll(' ',''),
+                    sender: "test-web",
+                }),
             })
             .then(response => response.json())
             .then(data => {
