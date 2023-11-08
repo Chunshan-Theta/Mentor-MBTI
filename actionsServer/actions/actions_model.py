@@ -11,7 +11,7 @@ from typing import Any, Text, Dict, List
 from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-# from .models import callGPT_AnswerQuestion
+from .models import gptBackground, gptDefaultStory
 # from .db import getKN
 import json
 import os
@@ -52,7 +52,11 @@ class ActionAskGptExtendStory(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
-        dispatcher.utter_message(text="user_text: `"+getUserText(tracker)+"`")
+        dispatcher.utter_message(text="遊戲開始:\n`"+ gptBackground + gptDefaultStory)
+        dispatcher.utter_message(text="user_text: `" + getUserText(tracker)+"`")
+        dispatcher.utter_message(text="user sender_id: `"+tracker.sender_id+"`")
+        
+
 
         if getUserText(tracker) == "NEXT":
 
