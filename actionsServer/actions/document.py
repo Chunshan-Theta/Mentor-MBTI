@@ -1,11 +1,7 @@
 import json
 import time
 from typing import Dict, Any, List
-
-import numpy as np
-import pandas as pd
 import redis
-import requests
 from redis.commands.search.field import (
     NumericField,
     TagField,
@@ -18,7 +14,7 @@ from redis.commands.search.query import Query
 
 def createClient() -> redis.Redis: 
     return redis.Redis(
-        host="localhost", 
+        host="redis", 
         port=6379, 
         decode_responses=True
     )
@@ -35,8 +31,8 @@ def updateDocuments(client: redis.Redis, keyValues: List[Dict[str, Any]], path:s
     return pipeline.execute()
 
 
-client = createClient()
-assert(checkClient(client))
+# client = createClient()
+# assert(checkClient(client))
 
 def getByKey(client: redis.Redis, key: str) -> Dict[str, Any]:
     # return client.json().get("bikes:010", "$.model")
@@ -44,31 +40,30 @@ def getByKey(client: redis.Redis, key: str) -> Dict[str, Any]:
 
 
 
-## Insert
-mock_data: Dict[str, Any] = {
-    'model': 'ThrillCycle',
-    'brand': 'BikeShind',
-    'price': 815,
-    'type': 'Commuter Bikes',
-    'specs': {'material': 'alloy', 'weight': '12.7'},
-    'description': """ An artsy,  
-    retro-inspired bicycle that’s as functional as it is pretty: The ThrillCycle steel frame offers a smooth ride. 
-    A 9-speed drivetrain has enough gears for coasting in the city, but we wouldn’t suggest taking it to the mountains. 
-    Fenders protect you from mud, and a rear basket lets you transport groceries, flowers and books. 
-    The ThrillCycle comes with a limited lifetime warranty, so this little guy will last you long past graduation."""
-}
+# ## Insert
+# mock_data: Dict[str, Any] = {
+#     'model': 'ThrillCycle',
+#     'brand': 'BikeShind',
+#     'price': 815,
+#     'type': 'Commuter Bikes',
+#     'specs': {'material': 'alloy', 'weight': '12.7'},
+#     'description': """ An artsy,  
+#     retro-inspired bicycle that’s as functional as it is pretty: The ThrillCycle steel frame offers a smooth ride. 
+#     A 9-speed drivetrain has enough gears for coasting in the city, but we wouldn’t suggest taking it to the mountains. 
+#     Fenders protect you from mud, and a rear basket lets you transport groceries, flowers and books. 
+#     The ThrillCycle comes with a limited lifetime warranty, so this little guy will last you long past graduation."""
+# }
 
-res = updateDocuments(client,[{
-    'key': "bike:-1",
-    'value': mock_data
-}],"$")
-assert(all(res))
-# >>> [True, True, True, True, True, True, True, True, True, True, True]
+# res = updateDocuments(client,[{
+#     'key': "bike:-1",
+#     'value': mock_data
+# }],"$")
+# assert(all(res))
+# # >>> [True, True, True, True, True, True, True, True, True, True, True]
 
 
-## Search
-assert(getByKey(client, 'bike:-1')==mock_data)
-assert(getByKey(client, 'bike:-2') is None)
+# ## Search
+# assert(getByKey(client, 'bike:-1')==mock_data)
 
 
 

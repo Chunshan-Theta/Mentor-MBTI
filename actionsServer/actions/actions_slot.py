@@ -32,7 +32,7 @@ class ActionSoltWelcomeStageSetFalse(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
+        dispatcher.utter_message(text="CALL CUSTOM ACTION `Action_Solt_Welcome_Stage_Set_False`")
         return [SlotSet("welcome_stage", False)]
 
 class ActionSoltStoryStageSetStarted(Action):

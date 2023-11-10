@@ -2,11 +2,10 @@ import requests
 import json
 from typing import List, Any, Dict
 import os
-
+from .document import *
 
 def callGpt(
-        userText: str,
-        messages: List[Any],
+        messages: List[Dict[str,str]],
         temperature: float = 0.3
     ) -> str:
     url: str = "https://api.openai.com/v1/chat/completions"
@@ -17,7 +16,7 @@ def callGpt(
         "top_p": 1,
         "n": 1,
         "stream": False,
-        "max_tokens": 250,
+        "max_tokens": 800,
         "presence_penalty": 0,
         "frequency_penalty": 0
     })
@@ -47,6 +46,7 @@ Note that we must ONLY discuss the story and decision in traditional Mandarin, D
 You need more than two questions to understand the user’s personality, so write new sections and questions for the user to collect more data. 
 But the count of sections CAN'T over 4.
 While you already collected enough data could know the detailed personality of the user, you must actively terminate the discussion, and finish the story in one line with the pattern "<the ending of story> ***【故事结束】 ". 
+The Response should NOT over 300 words 
 
 FOLLOW ABOVE RULE.
 
@@ -70,6 +70,8 @@ gptDefaultStory: str ="""
 選擇2：我很抱歉，我不願意冒險，這太危險了。
 選擇3：我需要更多的信息才能做出決定。"
 """
+client = createClient()
+assert(checkClient(client))
 
 def initMemory(userText: str): return  [
                 {
@@ -85,9 +87,21 @@ def initMemory(userText: str): return  [
                     "content": userText
                 }
         ]
-def callGPT_ExtendStory(memory: List[Dict[str, str]],userText: str) -> (str, List[Dict[str,str]]):
+def callGPT_ExtendStory(userId: str, userText: str) -> str:
+    
+    memory = getByKey(client, userId)
+    if memory is None:
+        memory = initMemory(userText)
+    else:
         memory.extend([{"role": "user", "content": userText}])
-        botReply: str =  callGpt(userText, memory,0.7)
-        memory.extend([{"role": "assistant", "content": botReply}])
-        return botReply, memory
-        
+    botReply: str =  callGpt(memory, 0.7)
+
+
+    memory.extend([{"role": "assistant", "content": botReply}])
+    res = updateDocuments(client,[{
+        'key': userId,
+        'value': memory
+    }],"$")
+    assert(all(res))
+
+    return botReply        
