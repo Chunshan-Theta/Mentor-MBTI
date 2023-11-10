@@ -11,7 +11,7 @@ from typing import Any, Text, Dict, List
 from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from .models import gptBackground, gptDefaultStory
+from .models import gptBackground, gptDefaultStory, callGPT_ExtendStory
 # from .db import getKN
 import json
 import os
@@ -21,6 +21,7 @@ def send(d: CollectingDispatcher, obj: Any): d.utter_message(str(obj))
 def getSlot_StoryStage(t: Tracker): return t.get_slot('story_stage')
 def getUserLatestMEG(t: Tracker): return t.latest_message
 def getUserText(t: Tracker): return getUserLatestMEG(t)["text"]
+def getUserId(t: Tracker): return t.sender_id
 
 class ActionAskGptAnalysisStory(Action):
 
@@ -51,14 +52,13 @@ class ActionAskGptExtendStory(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
-        dispatcher.utter_message(text="遊戲開始:\n`"+ gptBackground + gptDefaultStory)
-        dispatcher.utter_message(text="user_text: `" + getUserText(tracker)+"`")
-        dispatcher.utter_message(text="user sender_id: `"+tracker.sender_id+"`")
-        
+        dispatcher.utter_message(text="**CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
+        dispatcher.utter_message(text="**user_text: `" + getUserText(tracker)+"`")
+        dispatcher.utter_message(text="**user sender_id: `"+tracker.sender_id+"`")
+        botReply:str = callGPT_ExtendStory(getUserId(tracker), getUserText(tracker))
+        dispatcher.utter_message(text="botReply: "+botReply)
 
-
-        if getUserText(tracker) == "NEXT":
+        if "【故事结束】" in botReply:
 
             dispatcher.utter_message(text="遊戲將要結束 進行分析")
             return [

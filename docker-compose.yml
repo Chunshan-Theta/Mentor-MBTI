@@ -13,6 +13,9 @@ services:
       - ActionServerMode=
     # entrypoint: /bin/bash -c "pip install -r requirement.txt && rasa run actions"
     command: run actions
+    depends_on:
+      - training-model
+      - redis 
 
   training-model:
     image: rasa/rasa:3.6.6-full
@@ -63,6 +66,6 @@ services:
     ports:
       - '6379:6379'
     command: redis-server --save 20 1 --loglevel warning --protected-mode no  --loadmodule /opt/redis-stack/lib/redisearch.so --loadmodule /opt/redis-stack/lib/rejson.so
-    volumes:
-      - ./redis-data:/data
+    # volumes:
+    #   - ./redis-data:/data
 
