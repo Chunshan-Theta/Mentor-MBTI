@@ -11,7 +11,7 @@ from typing import Any, Text, Dict, List
 from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from .models import gptBackground, gptDefaultStory, callGPT_ExtendStory
+from .models import gptBackground, gptDefaultStory, callGPT_ExtendStory, callGPT_AnalyzeStory
 # from .db import getKN
 import json
 import os
@@ -38,13 +38,9 @@ class ActionAskGptAnalysisStory(Action):
         #result, rqBody = callGPT_AnswerQuestion(examples, userText)
         dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_analysis_story`")
         dispatcher.utter_message(text="getUserId(tracker):" + str(getUserId(tracker)))
-        memory = getByKey(client, getUserId(tracker))
-        for m in memory[1:]:
-            if m["role"]=="assistant":
-                subsentence = m["content"].split(" ")
-                dispatcher.utter_message(text=m["role"]+": "+ "\n".join(subsentence[-5:]))
-            else:
-                dispatcher.utter_message(text=m["role"]+": "+ m["content"])
+        dispatcher.utter_message(text="botReply: "+ callGPT_AnalyzeStory(getUserId(tracker)))
+        
+        
             
         return []
 
