@@ -15,13 +15,16 @@ from .models import gptBackground, gptDefaultStory, callGPT_ExtendStory
 # from .db import getKN
 import json
 import os
-
+from .document import *
 
 def send(d: CollectingDispatcher, obj: Any): d.utter_message(str(obj))
 def getSlot_StoryStage(t: Tracker): return t.get_slot('story_stage')
 def getUserLatestMEG(t: Tracker): return t.latest_message
 def getUserText(t: Tracker): return getUserLatestMEG(t)["text"]
 def getUserId(t: Tracker): return t.sender_id
+client = createClient()
+assert(checkClient(client))
+
 
 class ActionAskGptAnalysisStory(Action):
 
@@ -34,14 +37,16 @@ class ActionAskGptAnalysisStory(Action):
         userText: str = getUserText(tracker)
         #result, rqBody = callGPT_AnswerQuestion(examples, userText)
         dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_analysis_story`")
-        #if os.environ.get("ActionServerMode", None) == "debug":
-        #    dispatcher.utter_message(text=str(rqBody))
-
-        # stage = getSlot_Stage(tracker)
+        dispatcher.utter_message(text="getUserId(tracker):" + str(getUserId(tracker)))
+        memory = getByKey(client, getUserId(tracker))
+        for m in memory[1:]:
+            if m["role"]=="assistant":
+                subsentence = m["content"].split(" ")
+                dispatcher.utter_message(text=m["role"]+": "+ "\n".join(subsentence[-5:]))
+            else:
+                dispatcher.utter_message(text=m["role"]+": "+ m["content"])
+            
         return []
-        # return [
-        #     SlotSet("stage", "CustomAction")
-        # ]
 
 
 class ActionAskGptExtendStory(Action):
@@ -55,12 +60,12 @@ class ActionAskGptExtendStory(Action):
         dispatcher.utter_message(text="**CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
         dispatcher.utter_message(text="**user_text: `" + getUserText(tracker)+"`")
         dispatcher.utter_message(text="**user sender_id: `"+tracker.sender_id+"`")
-        botReply:str = callGPT_ExtendStory(getUserId(tracker), getUserText(tracker))
+        botReply:str = callGPT_ExtendStory(getUserId(tracker), "我選擇是:"+getUserText(tracker))
         dispatcher.utter_message(text="botReply: "+botReply)
 
-        if "【故事结束】" in botReply:
+        if "GAMEOVER" in botReply or "遊戲結束" in botReply:
 
-            dispatcher.utter_message(text="遊戲將要結束 進行分析")
+            dispatcher.utter_message(text="遊戲將要結束 進行分析 沒問題請說繼續")
             return [
                 SlotSet("story_started", False),
                 SlotSet("story_finished", True)
