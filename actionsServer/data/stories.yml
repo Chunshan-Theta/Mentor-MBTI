@@ -11,7 +11,7 @@ stories:
         - intent: user_confirm
       - action: utter_introduct_the_bot_game
       - intent: user_confirm
-      - action: utter_story_start
+      - action: action_story_start
       - action: action_solt_story_stage_set_started
       - action: action_solt_welcome_stage_set_false
       - intent: user_response

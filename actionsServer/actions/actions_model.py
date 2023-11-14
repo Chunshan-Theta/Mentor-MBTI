@@ -34,12 +34,25 @@ class ActionAskGptAnalysisStory(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        keymap = {}
         userText: str = getUserText(tracker)
         #result, rqBody = callGPT_AnswerQuestion(examples, userText)
-        dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_analysis_story`")
-        dispatcher.utter_message(text="getUserId(tracker):" + str(getUserId(tracker)))
-        dispatcher.utter_message(text="botReply: "+ callGPT_AnalyzeStory(getUserId(tracker)))
-        
+        # dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_analysis_story`")
+        # dispatcher.utter_message(text="getUserId(tracker):" + str(getUserId(tracker)))
+        for m in callGPT_AnalyzeStory(getUserId(tracker)).split("\n"):
+            if "->" in m :
+                unit = m.split('->')
+                keymap[unit[0].strip()] = unit[1].replace("of 6","").strip()
+            elif ":" in m :
+                unit = m.split(':')
+                keymap[unit[0].strip()] = unit[1].replace("of 6","").strip()
+        if "Personality Traits" in keymap:
+            dispatcher.utter_message(text="您的性格 : "+keymap["Personality Traits"])
+        if "MBTI-CODE" in keymap:
+            dispatcher.utter_message(text="**MBTI-CODE : "+keymap["MBTI-CODE"]) 
+            dispatcher.utter_message(text="更詳細可以參考MBTI官網: https://www.16personalities.com/"+keymap["MBTI-CODE"]+"-personality")             
+            
+        dispatcher.utter_message(text="**keymap : "+json.dumps(keymap,ensure_ascii=False)) 
         
             
         return []
@@ -53,11 +66,12 @@ class ActionAskGptExtendStory(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text="**CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
-        dispatcher.utter_message(text="**user_text: `" + getUserText(tracker)+"`")
-        dispatcher.utter_message(text="**user sender_id: `"+tracker.sender_id+"`")
+        # dispatcher.utter_message(text="**CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
+        # dispatcher.utter_message(text="**user_text: `" + getUserText(tracker)+"`")
+        # dispatcher.utter_message(text="**user sender_id: `"+tracker.sender_id+"`")
         botReply:str = callGPT_ExtendStory(getUserId(tracker), "我選擇是:"+getUserText(tracker))
-        dispatcher.utter_message(text="botReply: "+botReply)
+        for m in botReply.split("\n"):
+            dispatcher.utter_message(text=str(m))
 
         if "GAMEOVER" in botReply or "遊戲結束" in botReply:
 

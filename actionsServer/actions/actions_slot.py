@@ -32,7 +32,7 @@ class ActionSoltWelcomeStageSetFalse(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text="CALL CUSTOM ACTION `Action_Solt_Welcome_Stage_Set_False`")
+        # dispatcher.utter_message(text="CALL CUSTOM ACTION `Action_Solt_Welcome_Stage_Set_False`")
         return [SlotSet("welcome_stage", False)]
 
 class ActionSoltStoryStageSetStarted(Action):
@@ -44,7 +44,7 @@ class ActionSoltStoryStageSetStarted(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
 
-        dispatcher.utter_message(text="CALL CUSTOM ACTION `action_solt_story_stage_set_started`")
+        # dispatcher.utter_message(text="CALL CUSTOM ACTION `action_solt_story_stage_set_started`")
         return [SlotSet("story_started", True)]
 
 
@@ -56,5 +56,5 @@ class ActionSoltStoryStageSetFinished(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text="CALL CUSTOM ACTION `action_solt_story_stage_set_finished`")
+        # dispatcher.utter_message(text="CALL CUSTOM ACTION `action_solt_story_stage_set_finished`")
         return [SlotSet("story_finished", True)]

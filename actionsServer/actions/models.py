@@ -161,7 +161,7 @@ def callGPT_AnalyzeStory(userId: str) -> str:
                     When answering, be sure not to include redundant premises, prefaces, warnings, suggestions and adjustments to the format, and fill it in exactly according to the format.
                     """
                 }
-        ], 0.7)
+        ], 0.3)
     # botReply: ---START--- Personality Traits-> "根據對話內容，用戶展現出了冒險、勇氣和決心的特質。他願意面對挑戰並克服困難，展現了冒險家的精神。"
     # the Six-point mbti scale: Extraversion (E)-> 3 of 6 Introversion (I)-> 3 of 6 Sensing (S): 3 of 6 Intuition (N)-> 3 of 6 Thinking (T)-> 2 of 6 Feeling (F)-> 4 of 6 Judging (J)-> 2 of 6 Perceiving (P)-> 4 of 6
     # MBTI-CODE -> INFP ---FINISH---
