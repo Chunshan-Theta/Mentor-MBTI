@@ -16,6 +16,7 @@ from .models import gptBackground, gptDefaultStory, callGPT_ExtendStory, callGPT
 import json
 import os
 from .document import *
+from .models import decodeAnalyzeStory
 
 def send(d: CollectingDispatcher, obj: Any): d.utter_message(str(obj))
 def getSlot_StoryStage(t: Tracker): return t.get_slot('story_stage')
@@ -36,24 +37,8 @@ class ActionAskGptAnalysisStory(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         keymap = {}
         userText: str = getUserText(tracker)
-        #result, rqBody = callGPT_AnswerQuestion(examples, userText)
-        # dispatcher.utter_message(text="CALL CUSTOM ACTION `action_ask_gpt_analysis_story`")
-        # dispatcher.utter_message(text="getUserId(tracker):" + str(getUserId(tracker)))
-        for m in callGPT_AnalyzeStory(getUserId(tracker)).split("\n"):
-            if "->" in m :
-                unit = m.split('->')
-                keymap[unit[0].strip()] = unit[1].replace("of 6","").strip()
-            elif ":" in m :
-                unit = m.split(':')
-                keymap[unit[0].strip()] = unit[1].replace("of 6","").strip()
-        if "Personality Traits" in keymap:
-            dispatcher.utter_message(text="您的性格 : "+keymap["Personality Traits"])
-        if "MBTI-CODE" in keymap:
-            dispatcher.utter_message(text="**MBTI-CODE : "+keymap["MBTI-CODE"]) 
-            dispatcher.utter_message(text="更詳細可以參考MBTI官網: https://www.16personalities.com/"+keymap["MBTI-CODE"]+"-personality")             
-            
-        dispatcher.utter_message(text="**keymap : "+json.dumps(keymap,ensure_ascii=False)) 
-        
+        for reply in decodeAnalyzeStory(callGPT_AnalyzeStory(getUserId(tracker))):
+            dispatcher.utter_message(text=reply) 
             
         return []
 

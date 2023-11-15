@@ -110,6 +110,24 @@ def callGPT_ExtendStory(userId: str, userText: str) -> str:
 
     return botReply        
 
+def decodeAnalyzeStory(botReply: str) -> List[str]:
+    keymap = {}
+    replies: List[str] = [] 
+    for m in botReply.split("\n"):
+        if "->" in m :
+            unit = m.split('->')
+            keymap[unit[0].strip()] = unit[1].replace("of 6","").strip()
+        elif ":" in m :
+            unit = m.split(':')
+            keymap[unit[0].strip()] = unit[1].replace("of 6","").strip()
+    if "Personality Traits" in keymap:
+        replies.append("您的性格 : "+keymap["Personality Traits"])
+    if "MBTI-CODE" in keymap:
+        replies.append("**MBTI-CODE : "+keymap["MBTI-CODE"]) 
+        replies.append("更詳細可以參考MBTI官網: https://www.16personalities.com/"+keymap["MBTI-CODE"]+"-personality") 
+
+    replies.append("**keymap : "+json.dumps(keymap,ensure_ascii=False))      
+    return replies
 
 def callGPT_AnalyzeStory(userId: str) -> str:
     
@@ -162,14 +180,12 @@ def callGPT_AnalyzeStory(userId: str) -> str:
                     """
                 }
         ], 0.3)
-    # botReply: ---START--- Personality Traits-> "根據對話內容，用戶展現出了冒險、勇氣和決心的特質。他願意面對挑戰並克服困難，展現了冒險家的精神。"
-    # the Six-point mbti scale: Extraversion (E)-> 3 of 6 Introversion (I)-> 3 of 6 Sensing (S): 3 of 6 Intuition (N)-> 3 of 6 Thinking (T)-> 2 of 6 Feeling (F)-> 4 of 6 Judging (J)-> 2 of 6 Perceiving (P)-> 4 of 6
-    # MBTI-CODE -> INFP ---FINISH---
+    replies: List(str) = decodeAnalyzeStory(botReply)
     
-    # res = updateDocuments(client,[{
-    #     'key': userId,
-    #     'value': botReply
-    # }],"$MBTIREPORT")
-    # assert(all(res))
+    res = updateDocuments(client,[{
+        'key': "replies~|~"+userId,
+        'value': {"replies": replies}
+    }],"$")
+    assert(all(res))
 
     return botReply       
