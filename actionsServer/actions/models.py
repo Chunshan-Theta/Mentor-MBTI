@@ -81,7 +81,7 @@ def initMemory(userText: str): return  [
                 },
                 {
                     "role": "assistant",
-                    "content": gptOpener+gptBackground
+                    "content": gptOpener+gptBackground+gptDefaultStory
                 },
                 {
                     "role": "user",
