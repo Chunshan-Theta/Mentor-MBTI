@@ -11,12 +11,10 @@ from typing import Any, Text, Dict, List
 from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from .models import gptBackground, gptDefaultStory, callGPT_ExtendStory, callGPT_AnalyzeStory
-# from .db import getKN
+from .models import callGPT_ExtendStory, callGPT_AnalyzeStory, decodeAnalyzeStory
 import json
 import os
 from .document import *
-from .models import decodeAnalyzeStory
 
 def send(d: CollectingDispatcher, obj: Any): d.utter_message(str(obj))
 def getSlot_StoryStage(t: Tracker): return t.get_slot('story_stage')
