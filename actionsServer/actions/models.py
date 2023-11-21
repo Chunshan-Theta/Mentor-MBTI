@@ -3,6 +3,7 @@ import json
 from typing import List, Any, Dict
 import os
 from .document import *
+from .stages import mentaltutor_storiesGamer
 
 def callGpt(
         messages: List[Dict[str,str]],
@@ -38,39 +39,13 @@ def callGpt(
 #
 #
 
-gptSystem: str = """
-As a story-driven mental consultant, you need to understand the user's type through interactive conversation, you should continue the story and write more and new sections for the user to face difficult decisions. 
-you need to continue the story and design the next section based on the user's decision.
+gptSystem: str = mentaltutor_storiesGamer.situation["role"]
 
-Note that we must ONLY discuss the story and decision in traditional Mandarin, DO NOT  discuss anything else, like the MBTI framework!
-You need more than two questions to understand the user’s personality, so write new sections and questions for the user to collect more data. 
-But the count of sections CAN'T over 4.
-While you already collected enough data could know the detailed personality of the user, you must actively terminate the discussion, and finish the story in one line with the pattern "<the ending of story> ***【GAMEOVER】 ". 
-The Each Response JUST one line. 
+gptOpener: str = "\n".join(mentaltutor_storiesGamer.target["jobs"])+"\n\n\n"+"\n".join(mentaltutor_storiesGamer.target["rules"])
 
-FOLLOW ABOVE RULE.
+gptBackground: str = "\n".join(mentaltutor_storiesGamer.action["toAgent"])
 
-"""
-
-gptOpener: str ="""
-Next, I will describe your background and the decision points you are facing. I will also provide three choices for you to make, or you can describe your own thoughts. 
-"""
-
-gptBackground: str ="""
-你已經到達了一個美麗而神秘的國度，稱為埃爾多利亞，充滿了奇幻的生物和魔法力量。
-你發現自己擁有一些特殊的能力，你會在這個平行世界中逐發現，同時你可以自由地探索不同的地方，遭遇冒險事件。
-現在你遇到了一位來自當地的魔法公主，她告訴你 ：
-"""
-
-gptDefaultStory: str ="""
-親愛的旅行者，我是埃爾多利亞的公主妮娜。我們的國家有一個邪惡的巫師被封印在深淵之中，他擁有無窮的黑暗力量。
-然而，最近我們的封印之力開始變弱，為了保護我們的國家和人民，我需要找到並重新封印巫師。
-但是，我不能單獨完成這個任務，我需要你的幫助。你願意幫助我嗎？
-
-選擇1：當然願意！我願意冒險去尋找並重新封印巫師。
-選擇2：我很抱歉，我不願意冒險，這太危險了。
-選擇3：我需要更多的信息才能做出決定。"
-"""
+gptDefaultStory: str ="\n".join(mentaltutor_storiesGamer.action["both"])
 client = createClient()
 assert(checkClient(client))
 
@@ -113,6 +88,7 @@ def callGPT_ExtendStory(userId: str, userText: str) -> str:
 def decodeAnalyzeStory(botReply: str) -> List[str]:
     keymap = {}
     replies: List[str] = [] 
+    replies.append("**botReply : "+botReply)   
     for m in botReply.split("\n"):
         if "->" in m :
             unit = m.split('->')
