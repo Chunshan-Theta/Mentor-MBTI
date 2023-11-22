@@ -31,7 +31,7 @@ def callGpt(
     try:
         return str(response.json()['choices'][0]['message']['content'])
     except:
-        return "ERROR:"+str(response.text)
+        return "OPEN API DOWN -> ERROR:"+str(response.text)
 
 
 #
@@ -39,9 +39,7 @@ def callGpt(
 #
 #
 
-gptSystem: str = mentaltutor_storiesGamer.situation["role"]
-
-gptOpener: str = "\n".join(mentaltutor_storiesGamer.target["jobs"])+"\n\n\n"+"\n".join(mentaltutor_storiesGamer.target["rules"])
+gptSystem: str = mentaltutor_storiesGamer.situation["role"]+"\n"+"\n".join(mentaltutor_storiesGamer.target["jobs"])+"\n"+"\n".join(mentaltutor_storiesGamer.target["rules"])
 
 gptBackground: str = "\n".join(mentaltutor_storiesGamer.action["toAgent"])
 
@@ -56,7 +54,7 @@ def initMemory(userText: str): return  [
                 },
                 {
                     "role": "assistant",
-                    "content": gptOpener+gptBackground+gptDefaultStory
+                    "content": gptBackground+gptDefaultStory
                 },
                 {
                     "role": "user",

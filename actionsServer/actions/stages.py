@@ -41,11 +41,12 @@ mentaltutor_storiesGamer = Stage({
     },
     "target": {
         'jobs': [
-            "Develop a story based on a situation, the challenges faced, and choices made by the characters."
+            "You need more than two questions to understand the user’s personality, so write new sections and questions for the user to collect more data. "
         ],
         'rules': [
-            "When users face fewer than four decision points, develop the next part of the story based on the narrative, the problem they're facing, and their choices. Provide three possible development options or suggest users create a new possibility, all within 100 words. ",
-            "If users encounter more than four decision points, conclude the story within one sentence and add `[GAMEOVER]` at the end.",
+            "While users already answer decision points encounter more than four decision points, you must actively terminate the discussion, and finish the story in one line",
+            "While you already collected enough data could know the detailed personality of the user, you must actively terminate the discussion, and finish the story in one line",
+            "When you finished the story, add the `[GAMEOVER]` label at the end.",
             "The entire conversation must be in Traditional Chinese."
         ],
     },
