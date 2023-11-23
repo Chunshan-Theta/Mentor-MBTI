@@ -41,12 +41,13 @@ mentaltutor_storiesGamer = Stage({
     },
     "target": {
         'jobs': [
-            "You need more than two questions to understand the user’s personality, so write new sections and questions for the user to collect more data. "
+            "You need to understand the user’s personality by questions, so write new sections and questions for the user to collect more data. At the same time, provide some choices for user to make"
         ],
         'rules': [
-            "While users already answer decision points encounter more than four decision points, you must actively terminate the discussion, and finish the story in one line",
-            "While you already collected enough data could know the detailed personality of the user, you must actively terminate the discussion, and finish the story in one line",
-            "When you finished the story, add the `[GAMEOVER]` label at the end.",
+            "DO NOT discuss anything else, like the MBTI framework!",
+            "When users already answer decision points encounter more than 2 decision points, you must actively terminate the discussion, and finish the story in one line",
+            "When you already collected enough data could know the detailed personality of the user, you must actively terminate the discussion, and finish the story in one line",
+            "When you will finish the story, add the `[GAMEOVER]` label at the end.",
             "The entire conversation must be in Traditional Chinese."
         ],
     },
@@ -96,27 +97,33 @@ mentaltutor_mbtiScale = Stage({
             "Now that the story is finished, analyze and estimate the user's personality based on the story, the challenges faced, and the choices made"
         ],
         'rules': [
-            "Please carefully review all the conversations provided by the user to analyze their personality. Based on the analysis, fill out the six-point MBTI questionnaire below for the user.",
-            """six-point MBTI questionnaire ：
-            --START--- 
-            Personality Traits-> "<Description of User Personality Traits in traditional Mandarin in 50 words> “ 
-            the Six-point mbti scale: 
-            Extraversion (E)-> * of 6 
-            Introversion (I)->* of 6 
-            Sensing (S): * of 6 
-            Intuition (N)->* of 6 
-            Thinking (T)->* of 6 
-            Feeling (F)->* of 6 
-            Judging (J)-> * of 6 
-            Perceiving (P)-> * of 6 
-            MBTI-CODE -> <MBTI-CODE>""",
+            "Please carefully review all the conversations provided by the user to analyze their personality. Based on the analysis, fill out the MBTI questionnaire below for the user.",
+            "When answering, be sure not to include redundant premises, prefaces, warnings, suggestions and adjustments to the format, and fill it in exactly according to the format.",
+            """MBTI questionnaire ：
+            
+                    ^Personality Traits-> "<Description of User Personality Traits in traditional Mandarin in 50 words>"
+
+                    ^the Six-point mbti scale:
+                    ^Extraversion (E)-> * of 6
+                    ^Introversion (I)-> *  of 6
+                    ^Sensing (S)-> *  of 6
+                    ^Intuition (N)->*  of 6
+                    ^Thinking (T)->*  of 6
+                    ^Feeling (F)->*  of 6
+                    ^Judging (J)-> *  of 6
+                    ^Perceiving (P)-> *  of 6
+
+                    ^MBTI-CODE -> <MBTI-CODE>
+                    
+            """,
+            " the * is <score number> you need to fill.>",
             "`Personality Traits` must be in Traditional Chinese."
         ],
     },
     "action": {
         'toAgent': [
             "以下為對話內容:",
-            "MEMORY:mentaltutor-storiesgamer.simphistory"
+            #"MEMORY:mentaltutor-storiesgamer.simphistory"
         ],
         'both': [],
         'toUser': [

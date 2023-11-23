@@ -3,7 +3,7 @@ import json
 from typing import List, Any, Dict
 import os
 from .document import *
-from .stages import mentaltutor_storiesGamer
+from .stages import mentaltutor_storiesGamer, mentaltutor_mbtiScale
 
 def callGpt(
         messages: List[Dict[str,str]],
@@ -85,21 +85,22 @@ def callGPT_ExtendStory(userId: str, userText: str) -> str:
 
 def decodeAnalyzeStory(botReply: str) -> List[str]:
     keymap = {}
-    replies: List[str] = [] 
-    replies.append("**botReply : "+botReply)   
-    for m in botReply.split("\n"):
+    replies: List[str] = ["進行分析..."] 
+    
+    for m in botReply.split("^"):
         if "->" in m :
             unit = m.split('->')
-            keymap[unit[0].strip()] = unit[1].replace("of 6","").strip()
+            keymap[unit[0].strip()] = unit[1].replace("\n"," ").replace("of 6","").strip()
         elif ":" in m :
             unit = m.split(':')
-            keymap[unit[0].strip()] = unit[1].replace("of 6","").strip()
+            keymap[unit[0].strip()] = unit[1].replace("\n"," ").replace("of 6","").strip()
     if "Personality Traits" in keymap:
         replies.append("您的性格 : "+keymap["Personality Traits"])
     if "MBTI-CODE" in keymap:
-        replies.append("**MBTI-CODE : "+keymap["MBTI-CODE"]) 
         replies.append("更詳細可以參考MBTI官網: https://www.16personalities.com/"+keymap["MBTI-CODE"]+"-personality") 
+        # replies.append("**MBTI-CODE : "+keymap["MBTI-CODE"]) 
 
+    replies.append("**botReply : "+botReply)   
     replies.append("**keymap : "+json.dumps(keymap,ensure_ascii=False))      
     return replies
 
@@ -119,41 +120,17 @@ def callGPT_AnalyzeStory(userId: str) -> str:
     botReply: str = callGpt([
                 {
                     "role": "system",
-                    "content": """
-                    As a psychological counselor, your focus should be on analyzing the user's MBTI personality traits and providing corresponding explanations.
-                    Please carefully review all the conversations provided by the user.
-                    Please explain the reasons and fill in the six-point mbti scale for the user based on the following dialogue
-                    """
+                    "content": mentaltutor_mbtiScale.situation["role"]+"\n"+"\n".join(mentaltutor_mbtiScale.target["jobs"])+"\n"+"\n".join(mentaltutor_mbtiScale.target["rules"])
                 },
                 {
-                    "role": "user",
-                    "content": """
-                    
-                    conversation:
-                    """+ content + """
-
-                    ---START---
-                    Personality Traits-> "<Description of User Personality Traits in traditional Mandarin in 50 words>"
-
-                    the Six-point mbti scale:
-                    Extraversion (E)-> * of 6
-                    Introversion (I)->*  of 6
-                    Sensing (S): *  of 6
-                    Intuition (N)->*  of 6
-                    Thinking (T)->*  of 6
-                    Feeling (F)->*  of 6
-                    Judging (J)-> *  of 6
-                    Perceiving (P)-> *  of 6
-
-                    MBTI-CODE -> <MBTI-CODE>
-                    ---FINISH--- 
-                    the * is <score> you need to fill.
-
-
-                    When answering, be sure not to include redundant premises, prefaces, warnings, suggestions and adjustments to the format, and fill it in exactly according to the format.
-                    """
+                    "role": "assistant",
+                    "content": "\n".join(mentaltutor_mbtiScale.action["toAgent"])+"\n".join(mentaltutor_mbtiScale.action["both"])
+                },
+                {
+                    "role": "assistant",
+                    "content": content
                 }
-        ], 0.3)
+        ], 0.1)
     replies: List(str) = decodeAnalyzeStory(botReply)
     
     res = updateDocuments(client,[{
