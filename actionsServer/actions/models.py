@@ -3,7 +3,7 @@ import json
 from typing import List, Any, Dict
 import os
 from .document import *
-from .stages import mentaltutor_storiesGamer, mentaltutor_mbtiScale
+from .stages import *
 
 def callGpt(
         messages: List[Dict[str,str]],
@@ -39,49 +39,10 @@ def callGpt(
 #
 #
 
-gptSystem: str = mentaltutor_storiesGamer.situation["role"]+"\n"+"\n".join(mentaltutor_storiesGamer.target["jobs"])+"\n"+"\n".join(mentaltutor_storiesGamer.target["rules"])
 
-gptBackground: str = "\n".join(mentaltutor_storiesGamer.action["toAgent"])
-
-gptDefaultStory: str ="\n".join(mentaltutor_storiesGamer.action["both"])
 client = createClient()
 assert(checkClient(client))
 
-def initMemory(userText: str): return  [
-                {
-                    "role": "system",
-                    "content": gptSystem
-                },
-                {
-                    "role": "assistant",
-                    "content": gptBackground+gptDefaultStory
-                },
-                {
-                    "role": "user",
-                    "content": userText
-                }
-        ]
-def callGPT_ExtendStory(userId: str, userText: str) -> str:
-    
-    memory = getByKey(client, userId)
-    if memory is None:
-        memory = initMemory(userText)
-    else:
-        memory.extend([{"role": "user", "content": userText}])
-    if len(memory) > 10:
-        botReply: str =  callGpt(memory[:1]+memory[-10:], 0.7)
-    else:
-        botReply: str =  callGpt(memory, 0.7)
-
-
-    memory.extend([{"role": "assistant", "content": botReply}])
-    res = updateDocuments(client,[{
-        'key': userId,
-        'value': memory
-    }],"$")
-    assert(all(res))
-
-    return botReply        
 
 def decodeAnalyzeStory(botReply: str) -> List[str]:
     keymap = {}
@@ -106,12 +67,12 @@ def decodeAnalyzeStory(botReply: str) -> List[str]:
 
 def callGPT_AnalyzeStory(userId: str) -> str:
     
-    memory = getByKey(client, userId)
+    memory = getByKey(client, genKey(userId, "mentaltutor_storiesGamer", memoryLabels.stage["common"]["history"]))
     content: str = ""
     for m in memory[-10:]:
         if m["role"]=="assistant":
             subsentence = m["content"].split(" ")
-            content+= m["role"]+": "+ "\n".join(subsentence[-5:])
+            content+= m["role"]+": "+ "\n".join(subsentence[-8:])
             content+= "\n"
         else:
             content+= m["role"]+": "+ m["content"]
@@ -127,10 +88,10 @@ def callGPT_AnalyzeStory(userId: str) -> str:
                     "content": "\n".join(mentaltutor_mbtiScale.action["toAgent"])+"\n".join(mentaltutor_mbtiScale.action["both"])
                 },
                 {
-                    "role": "assistant",
+                    "role": "user",
                     "content": content
                 }
-        ], 0.1)
+        ], 0.01)
     replies: List(str) = decodeAnalyzeStory(botReply)
     
     res = updateDocuments(client,[{
@@ -140,3 +101,108 @@ def callGPT_AnalyzeStory(userId: str) -> str:
     assert(all(res))
 
     return botReply       
+
+
+
+#
+#
+#
+def genKey(userId: str, stageId: str, actionLabel: str):
+    return userId+"."+stageId+"."+actionLabel
+
+def getLatestMemory(userId:str, stageObj: Stage ) -> List[Any] | None:
+    memory = getByKey(client,genKey(userId, stageObj.system["id"], memoryLabels.stage["common"]["history"]))
+    if memory is None:
+        return None
+    if len(memory) > 10:
+        return memory[:1]+memory[-10:]
+    else:
+        return memory
+
+def execStoreFunc(userId:str, stageObj: Stage, memory: List[Any], storeFunc: str, botReply: str) -> bool:
+    if storeFunc == memoryLabels.stage["common"]["history"]:
+        res = updateDocuments(client,[{
+            'key': genKey(userId, stageObj.system["id"],memoryLabels.stage["common"]["history"]),
+            'value': memory
+        }],"$")
+    elif storeFunc == memoryLabels.stage["common"]["botReply"]:
+        res = updateDocuments(client,[{
+            'key': genKey(userId, stageObj.system["id"], memoryLabels.stage["common"]["botReply"]),
+            'value': botReply
+        }],"$")
+    elif storeFunc == memoryLabels.stage["common"]["simphistory"]:
+        content: str = ""
+        for m in memory[-10:]:
+            if m["role"]=="assistant":
+                subsentence = m["content"].split(" ")
+                content+= m["role"]+": "+ "\n".join(subsentence[-5:])
+                content+= "\n"
+            else:
+                content+= m["role"]+": "+ m["content"]
+                content+= "\n"
+        res = updateDocuments(client,[{
+            'key': genKey(userId, stageObj.system["id"], memoryLabels.stage["common"]["simphistory"]),
+            'value': content
+        }],"$")
+    else:
+        raise Exception("Not Support storeFunc: "+storeFunc)
+    return all(res)
+
+def callGPTExecturer(userId: str, stageName: str, userText: str) -> str:
+    
+    # get Stage
+    #   getStage(stageName: str) -> Stage
+    if stageName == "mentalTutorStoriesGamer":
+        stageObj: Stage = stageMap.mentalTutorStoriesGamer
+    else:
+        raise Exception("Not Support Stage")
+
+    # get Stage type
+    #   getStageType(stage: Stage) -> str(system-type)
+    stageMode: String = stageObj.system["type"]
+
+    # get Memory
+    #   getMemory(userId: str, stageId: str, memoryLabel: str) -> Dict[str, Any]
+    memory: List[Any] | None = getLatestMemory(userId, stageObj)
+
+
+    botReply: str = "Bot Not Reply"
+    if stageMode == "interactive":
+        
+        # build prompty
+        #   buildPrompt(userId: str, stage: Stage) -> Dict[str, Any]
+        if memory is None:
+            memory: List[str] = [
+                    {
+                        "role": "system",
+                        "content": stageObj.situation["role"]+"\n"+"\n".join(stageObj.target["jobs"])+"\n"+"\n".join(stageObj.target["rules"])
+                    },
+                    {
+                        "role": "assistant",
+                        "content": "\n".join(stageObj.action["toAgent"])+"\n".join(stageObj.action["both"])
+                    },
+                    {
+                        "role": "user",
+                        "content": userText
+                    }
+            ]
+        else:
+            memory.extend([{
+                "role": "user",
+                "content": userText
+            }])
+
+        # ask to bot
+        botReply =  callGpt(memory, 0.7)
+    else:
+        raise Exception("Not Support stageMode Methods")
+    memory.extend([{"role": "assistant", "content": botReply}])
+    
+    # Update memory
+    #    getMemory(userId: str, stageId: str, memoryLabel: str, memory: Dict[str, Any]) -> bool
+    for storeFunc in stageObj.response["storeFunc"]:
+        assert(execStoreFunc(userId, stageObj, memory, storeFunc, botReply), "Failed stage: "+storeFunc)
+
+    # answer to User
+    #    buildReply(stage: Stage) -> str(botReply)
+    return getByKey(client, genKey(userId,stageObj.system["id"], memoryLabels.stage["common"]["botReply"]))     

@@ -11,7 +11,7 @@ from typing import Any, Text, Dict, List
 from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from .models import callGPT_ExtendStory, callGPT_AnalyzeStory, decodeAnalyzeStory
+from .models import callGPT_AnalyzeStory, decodeAnalyzeStory, callGPTExecturer
 import json
 import os
 from .document import *
@@ -23,6 +23,31 @@ def getUserText(t: Tracker): return getUserLatestMEG(t)["text"]
 def getUserId(t: Tracker): return t.sender_id
 client = createClient()
 assert(checkClient(client))
+
+
+
+
+class ActionAskGptExtendStory(Action):
+    def name(self) -> Text:
+        return "action_ask_gpt_extend_story"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        userText: str = "我選擇是:"+getUserText(tracker)
+        botReply: str = callGPTExecturer(getUserId(tracker), "mentalTutorStoriesGamer" ,userText)
+        for m in botReply.split("\n"):
+            dispatcher.utter_message(text=str(m))
+
+        if "GAMEOVER" in botReply or "遊戲結束" in botReply:
+
+            dispatcher.utter_message(text="遊戲將要結束 進行分析 沒問題請說繼續")
+            return [
+                SlotSet("story_started", False),
+                SlotSet("story_finished", True)
+            ]
+        else:
+            return []
 
 
 class ActionAskGptAnalysisStory(Action):
@@ -39,29 +64,3 @@ class ActionAskGptAnalysisStory(Action):
             dispatcher.utter_message(text=reply) 
             
         return []
-
-
-class ActionAskGptExtendStory(Action):
-    def name(self) -> Text:
-        return "action_ask_gpt_extend_story"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        # dispatcher.utter_message(text="**CALL CUSTOM ACTION `action_ask_gpt_extend_story`")
-        # dispatcher.utter_message(text="**user_text: `" + getUserText(tracker)+"`")
-        # dispatcher.utter_message(text="**user sender_id: `"+tracker.sender_id+"`")
-        botReply:str = callGPT_ExtendStory(getUserId(tracker), "我選擇是:"+getUserText(tracker))
-        for m in botReply.split("\n"):
-            dispatcher.utter_message(text=str(m))
-
-        if "GAMEOVER" in botReply or "遊戲結束" in botReply:
-
-            dispatcher.utter_message(text="遊戲將要結束 進行分析 沒問題請說繼續")
-            return [
-                SlotSet("story_started", False),
-                SlotSet("story_finished", True)
-            ]
-        else:
-            return []

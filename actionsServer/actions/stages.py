@@ -10,21 +10,30 @@ class Stage:
 
 
 
-class Memory:
+class MemoryLabel:
     def __init__(self, _dict=None):
         if _dict is not None:
             self.__dict__.update(_dict)
         else:
             self.__dict__.update({})
 
-    def setMemory(self, key: str, obj: Any):
-        self.__dict__[key] = obj
-    
-    def getMemory(self, key: str) -> Any | None:
-        
-        return self.__dict__[key] if key in self.__dict__ else None
+class StageLabel:
+    def __init__(self, _dict=None):
+        if _dict is not None:
+            self.__dict__.update(_dict)
+        else:
+            self.__dict__.update({})
 
-
+memoryLabels = MemoryLabel({
+    "stage":{
+        "common": {
+            "history": "history",
+            "botReply": "botReply",
+            "simphistory": "simphistory",
+            "decodeMemory": "decodeMemory",
+        }
+    }
+})
 
 
 
@@ -53,21 +62,21 @@ mentaltutor_storiesGamer = Stage({
     },
     "action": {
         'toAgent': [
-            "Let's start the story now. Next, I will describe your background and the decision points you are facing. I will also provide three choices for you to make, or you can describe your own thoughts. "
+            "Let's start the story now. Next, I will describe your background and the decision points you are facing. I will also provide three choices for you to make, or you can describe your own thoughts. ",
         ],
         'both': [
             "你已經到達了一個美麗而神秘的國度，稱為埃爾多利亞，充滿了奇幻的生物和魔法力量。你發現自己擁有一些特殊的能力，你會在這個平行世界中逐發現，同時你可以自由地探索不同的地方，遭遇冒險事件。現在你遇到了一位來自當地的魔法公主，她告訴你 ：",
             "親愛的旅行者，我是埃爾多利亞的公主妮娜。我們的國家有一個邪惡的巫師被封印在深淵之中，他擁有無窮的黑暗力量。然而，最近我們的封印之力開始變弱，為了保護我們的國家和人民，我需要找到並重新封印巫師。",
-            "但是，我不能單獨完成這個任務，我需要你的幫助。你願意幫助我嗎？\n選擇1：當然願意！我願意冒險去尋找並重新封印巫師。\n選擇2：我很抱歉，我不願意冒險，這太危險了。\n選擇3：我需要更多的信息才能做出決定。"
+            "但是，我不能單獨完成這個任務，我需要你的幫助。你願意幫助我嗎？\n選擇1：當然願意！我願意冒險去尋找並重新封印巫師。\n選擇2：我很抱歉，我不願意冒險，這太危險了。\n選擇3：我需要更多的信息才能做出決定。",
         ],
         'toUser': []
     },
     "response": {
         'storeFunc': [
-            "mentaltutor-storiesgamer.history",
-            "mentaltutor-storiesgamer.botReply",
-            "mentaltutor-storiesgamer.simphistory",
-            "mentaltutor-storiesgamer.decodeMemory",
+            "history",
+            "botReply",
+            "simphistory",
+            # "decodeMemory",
         ],
         'toUserResponse': [
             "MEMORY:mentaltutor-storiesgamer.botReply"
@@ -122,8 +131,7 @@ mentaltutor_mbtiScale = Stage({
     },
     "action": {
         'toAgent': [
-            "以下為對話內容:",
-            #"MEMORY:mentaltutor-storiesgamer.simphistory"
+            "以下請提供的對話內容:",
         ],
         'both': [],
         'toUser': [
@@ -132,9 +140,9 @@ mentaltutor_mbtiScale = Stage({
     },
     "response": {
         'storeFunc': [
-            "mentaltutor-storiesgamer.history",
-            "mentaltutor-storiesgamer.botReply",
-            "mentaltutor-mbtiscale.decodeAnalyzeStory",
+            "history",
+            "botReply",
+            # "decodeAnalyzeStory",
         ],
         'toUserResponse': [
             "MEMORY:mentaltutor-mbtiscale.decodeAnalyzeStory"
@@ -147,4 +155,9 @@ mentaltutor_mbtiScale = Stage({
         ],
         'nextStageId': "",
     }
+})
+
+stageMap = StageLabel({
+    "mentalTutorStoriesGamer": mentaltutor_storiesGamer,
+    "mentalTutorMbtiScale": mentaltutor_mbtiScale
 })
