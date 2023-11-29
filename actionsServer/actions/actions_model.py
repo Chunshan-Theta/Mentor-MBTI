@@ -11,7 +11,7 @@ from typing import Any, Text, Dict, List
 from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from .models import callGPT_AnalyzeStory, decodeAnalyzeStory, callGPTExecturer
+from .models import callGPT_AnalyzeStory, decodeAnalyzeStory, callGPTStoryExtend
 import json
 import os
 from .document import *
@@ -35,7 +35,7 @@ class ActionAskGptExtendStory(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         userText: str = "我選擇是:"+getUserText(tracker)
-        botReply: str = callGPTExecturer(getUserId(tracker), "mentalTutorStoriesGamer" ,userText)
+        botReply: str = callGPTStoryExtend(getUserId(tracker), userText)
         for m in botReply.split("\n"):
             dispatcher.utter_message(text=str(m))
 

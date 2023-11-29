@@ -24,18 +24,12 @@ class StageLabel:
         else:
             self.__dict__.update({})
 
-memoryLabels = MemoryLabel({
-    "stage":{
-        "common": {
-            "history": "history",
-            "botReply": "botReply",
-            "simphistory": "simphistory",
-            "decodeMemory": "decodeMemory",
-        }
-    }
+
+memoryTags = MemoryLabel({
+    "historyOfGame": "historyOfGame",
+    "botReplyOfGame":"botReplyOfGame",
+    "simphistoryOfGame": "simphistoryOfGame",
 })
-
-
 
        
 mentaltutor_storiesGamer = Stage({
@@ -70,24 +64,6 @@ mentaltutor_storiesGamer = Stage({
             "但是，我不能單獨完成這個任務，我需要你的幫助。你願意幫助我嗎？\n選擇1：當然願意！我願意冒險去尋找並重新封印巫師。\n選擇2：我很抱歉，我不願意冒險，這太危險了。\n選擇3：我需要更多的信息才能做出決定。",
         ],
         'toUser': []
-    },
-    "response": {
-        'storeFunc': [
-            "history",
-            "botReply",
-            "simphistory",
-            # "decodeMemory",
-        ],
-        'toUserResponse': [
-            "MEMORY:mentaltutor-storiesgamer.botReply"
-        ],
-        'agnetFinalPoint': [
-            "keywork:[GAMEOVER]"
-        ],
-        'userFinalPoint': [
-            "intent:ok"
-        ],
-        'nextStageId': "mentaltutor_mbtiScale",
     }
 })
 
@@ -131,33 +107,11 @@ mentaltutor_mbtiScale = Stage({
     },
     "action": {
         'toAgent': [
-            "以下請提供的對話內容:",
+            "following content are logs:",
         ],
         'both': [],
         'toUser': [
             "接下來要進行分析 請說`繼續`。"
         ]
-    },
-    "response": {
-        'storeFunc': [
-            "history",
-            "botReply",
-            # "decodeAnalyzeStory",
-        ],
-        'toUserResponse': [
-            "MEMORY:mentaltutor-mbtiscale.decodeAnalyzeStory"
-        ],
-        'agnetFinalPoint': [
-            ""
-        ],
-        'userFinalPoint': [
-            ""
-        ],
-        'nextStageId': "",
     }
-})
-
-stageMap = StageLabel({
-    "mentalTutorStoriesGamer": mentaltutor_storiesGamer,
-    "mentalTutorMbtiScale": mentaltutor_mbtiScale
 })
