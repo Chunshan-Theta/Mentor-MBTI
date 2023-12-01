@@ -86,7 +86,7 @@ slots:
 
 ```
 ### Design Demo
-![img](./doc/basic-structure.png)
+![img](./doc/Selection_001.png)
 
 
 ### Game Demo
