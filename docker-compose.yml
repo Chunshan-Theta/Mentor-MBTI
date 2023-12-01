@@ -55,11 +55,12 @@ services:
       - "5005:5005"
       - "5006:5006"
   web:
-    image: nginx:alpine
+    image: node:20.8.1
     ports:
       - "80:80"
     volumes:
-      - ./web:/usr/share/nginx/html
+      - ./botroom:/app
+    command: sh -c "cd /app && rm -rf .git/hooks && npm install  && npm install -g serve && npm run build && serve -s ./build -l 80"
 
   redis:
     image: redis/redis-stack

@@ -98,8 +98,9 @@ def decodeAnalyzeStory(botReply: str) -> List[str]:
         replies.append("更詳細可以參考MBTI官網: https://www.16personalities.com/"+keymap["MBTI-CODE"]+"-personality") 
         # replies.append("**MBTI-CODE : "+keymap["MBTI-CODE"]) 
 
-    replies.append("**botReply : "+botReply)   
-    replies.append("**keymap : "+json.dumps(keymap,ensure_ascii=False))      
+    # replies.append("**botReply : "+botReply)   
+    # replies.append("**keymap : "+json.dumps(keymap,ensure_ascii=False))
+    replies.append("分析結束")            
     return replies
 
 def callGPT_AnalyzeStory(userId: str) -> str:
