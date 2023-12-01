@@ -5,9 +5,9 @@ const Chatroom = ({ messages }) => {
   return (
     <div className="chatroom">
       {messages.map(message => (
-        <div key={message.id} className="message">
-          <p>{message.text}</p>
-          <span>{message.sender}</span>
+        <div key={message.id} >
+          <p className={message.className_p}>{message.text}</p>
+          <p className={message.className_span}>{message.sender}</p>
         </div>
       ))}
     </div>

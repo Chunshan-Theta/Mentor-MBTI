@@ -102,3 +102,32 @@ button {
 button:hover {
   background-color: #0062cc;
 }
+
+.message_user_p {
+  margin: 3px;
+  background-color: lightsteelblue;
+  border-radius: 8px;
+  padding: 3px;
+  padding-left: 10px;
+  padding-right: 8px;
+  margin-right: 35px;
+}
+.message_user_span {
+  margin: 1px;
+  text-align: left;
+  color:#999;
+}
+.message_bot_p {
+  margin: 3px;
+  background-color: lightgray;
+  border-radius: 8px;
+  padding: 3px;
+  padding-left: 8px;
+  padding-right: 10px;
+  margin-left: 35px;
+}
+.message_bot_span {
+  margin: 1px;
+  text-align: right;
+  color:#999;
+}
