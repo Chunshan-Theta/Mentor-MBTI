@@ -9,13 +9,7 @@ body {
   background-color: #fafafa;
 }
 
-.app {
-  display: flex;
-  width: 800px;
-  height: 1200px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
+
 
 .sidebar {
   flex: 1;
@@ -100,34 +94,62 @@ button {
 }
 
 button:hover {
-  background-color: #0062cc;
+  background-color: #87C4FF;
 }
 
 .message_user_p {
   margin: 3px;
-  background-color: lightsteelblue;
+  background-color: rgb(210, 227, 252);
   border-radius: 8px;
-  padding: 3px;
-  padding-left: 10px;
-  padding-right: 8px;
-  margin-right: 35px;
+  padding: 8px 10px 10px 15px;
+  margin-left: 35px;
 }
 .message_user_span {
   margin: 1px;
-  text-align: left;
+  text-align: right;
   color:#999;
 }
 .message_bot_p {
   margin: 3px;
-  background-color: lightgray;
+  background-color: #D0D4CA;
   border-radius: 8px;
-  padding: 3px;
-  padding-left: 8px;
-  padding-right: 10px;
-  margin-left: 35px;
+  padding: 8px 10px 10px 15px;
+  margin-right: 35px;
 }
 .message_bot_span {
   margin: 1px;
-  text-align: right;
+  text-align: left;
   color:#999;
+}
+
+@media only screen and (max-width: 600px) {
+  .app {
+    display: flex;
+    width: 400px;
+    height: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  .forMb{
+    display: contents;
+  }
+  .forPc{
+    display: none;
+  }
+}
+/* For larger devices like tablets or desktops */
+@media only screen and (min-width: 601px) {
+  .app {
+    display: flex;
+    width: 800px;
+    height: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  .forMb{
+    display: none;
+  }
+  .forPc{
+    display: contents;
+  }
 }
