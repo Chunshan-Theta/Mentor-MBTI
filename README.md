@@ -86,12 +86,17 @@ slots:
 
 ```
 ### Design Demo
-![img](./doc/Selection_001.png)
+
+![img](./doc/chatroom_01.png)
 
 
 ### Game Demo
-![img](./doc/story 01.png)
-![img](./doc/story 02.png)
+
+- `根據選擇來推動故事`
+![img](./doc/chatroom_02.png)
+
+- `根據過程來分析使用者性格`
+![img](./doc/chatroom_03.png)
 
 
 # Service
