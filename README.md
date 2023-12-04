@@ -102,24 +102,24 @@ slots:
 # Service
 
 ### Start Service
-- up service
+1. Update OpenAIAPI Key in docker-compose.yml
+2. Update Domain name in botroom(frontend)
+3. up service with docker-compose
 ```
 docker-compose up
 ```
+4. go to weeb
+```
+http://127.0.0.1
+```
 
-### Cowork with bot
-- [Option 1] ask bot by cmd
+### ask bot by cmd
 ```
 curl -o output.txt -X POST -H "Content-Type: application/json; charset=UTF-8" -d '{"sender": "user-001","message": "早安"}'  http://127.0.0.1:5005/webhooks/rest/webhook && echo -e "$(<output.txt)"
 curl -o output.txt -X POST -H "Content-Type: application/json; charset=UTF-8" -d '{"sender": "user-001","message": "昆蟲是甚麼?"}'  http://127.0.0.1:5005/webhooks/rest/webhook && echo -e "$(<output.txt)"
 curl -o output.txt -X POST -H "Content-Type: application/json; charset=UTF-8" -d '{"sender": "user-001","message": "是的"}'  http://127.0.0.1:5005/webhooks/rest/webhook && echo -e "$(<output.txt)"
 ```
 
-- [Option 2] by web
-
-```
-http://localhost:80/
-```
 
 # Testing
 - wth rasa tests
@@ -128,21 +128,3 @@ docker-compose up test-model
 ```
 
 
-
-----
-# Backup
-
-#### If you want to manually fintune
-```
-docker run --rm -it -v "actionsServer:/app" --name rasa -p 5005:5005 -p 5006:5006 --entrypoint /bin/bash rasa/rasa:3.6.6-full
-```
-
-or
-```
-docker run --rm -it -v ".actionsServer:/app" --name rasa -p 5005:5005 -p 5006:5006 --entrypoint /bin/bash rasa/rasa:3.6.6-full
-```
-
-or
-```
-docker exec -it rasa /bin/bash
-```
