@@ -35,13 +35,21 @@ class ActionAskGptExtendStory(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         userText: str = "我選擇是:"+getUserText(tracker)
-        botReply: str = callGPTStoryExtend(getUserId(tracker), userText)
+        botReply, memoryLen = callGPTStoryExtend(getUserId(tracker), userText)
         for m in botReply.split("\n"):
             dispatcher.utter_message(text=str(m))
 
         if "GAMEOVER" in botReply or "遊戲結束" in botReply:
 
-            dispatcher.utter_message(text="遊戲將要結束 進行分析 沒問題請說繼續")
+            dispatcher.utter_message(text="遊戲將要結束 進行分析 請說繼續")
+            return [
+                SlotSet("story_started", False),
+                SlotSet("story_finished", True)
+            ]
+        elif memoryLen>11:
+
+            dispatcher.utter_message(text="由於已經達到了4個決策點，我們結束對話，並進行個性分析。")
+            dispatcher.utter_message(text="請說繼續")
             return [
                 SlotSet("story_started", False),
                 SlotSet("story_finished", True)

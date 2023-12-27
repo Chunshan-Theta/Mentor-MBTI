@@ -169,4 +169,4 @@ def callGPTStoryExtend(userId: str, userText: str) -> str:
     _ + setGameSimphistory(userId, memory)
    
 
-    return getGameBotReply(userId)     
+    return getGameBotReply(userId), len(getGameHistory(userId))+2   
